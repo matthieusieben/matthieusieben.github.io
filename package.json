@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "style": "prettier --check ."
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@types/node": "20.5.7",
