@@ -9,7 +9,7 @@ export const metadata = {
   description: 'Web development specialist',
 } satisfies Metadata
 
-export default (function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -19,4 +19,4 @@ export default (function RootLayout({
       <body className={inter.className}>{children}</body>
     </html>
   )
-})
+}
