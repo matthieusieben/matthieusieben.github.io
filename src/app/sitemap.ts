@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next'
+import { origin } from '@/constants'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://matthieusieben.com',
+      url: origin,
       lastModified: new Date(),
     },
   ]

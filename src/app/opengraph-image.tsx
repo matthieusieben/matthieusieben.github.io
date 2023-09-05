@@ -1,9 +1,12 @@
 import { ImageResponse } from 'next/server'
-import { metadata } from './layout'
+
+import { fullName, fullTitle } from '../constants'
+import portraitUrl from '../../public/portrait.jpg'
+import { assetDataUri } from './actions'
 
 export const runtime = 'nodejs'
 
-export const alt = metadata.title
+export const alt = fullName
 export const size = {
   width: 1200,
   height: 630,
@@ -12,18 +15,20 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function OpengraphImage() {
+  const src = await assetDataUri(portraitUrl.src)
+
   return new ImageResponse(
     (
       <main tw="flex flex-col bg-neutral-900 text-neutral-100 w-full h-full justify-center items-center">
         <img
-          alt={metadata.title}
+          alt={fullName}
           width="256"
           height="256"
           tw="rounded-full border-4 border-neutral-100"
-          src={`https://github.com/matthieusieben.png?${Date.now()}`}
+          src={src}
         />
-        <p tw="text-4xl">{metadata.title}</p>
-        <p tw="text-xl">{metadata.description}</p>
+        <p tw="text-4xl">{fullName}</p>
+        <p tw="text-xl">{fullTitle}</p>
       </main>
     ),
     {

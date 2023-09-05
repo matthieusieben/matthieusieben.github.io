@@ -1,17 +1,23 @@
-import { metadata } from './layout'
+import type { Metadata } from 'next'
+import Image from 'next/image'
+
+import { fullName } from '../constants'
+
+export const metadata = {} satisfies Metadata
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <img
-        alt={metadata.title}
-        width="256"
-        height="256"
-        className="rounded-full border-4 border-current"
-        src={`https://github.com/matthieusieben.png?${Date.now()}`}
+    <main className="w-full h-screen relative">
+      <Image
+        src="/picture.jpg"
+        className="object-cover w-full h-full select-none"
+        width={1920}
+        height={1080}
+        alt={fullName}
       />
-      <p className="text-4xl">{metadata.title}</p>
-      <p className="text-xl">{metadata.description}</p>
+      <div className="absolute drop-shadow-md text-slate-100 uppercase top-1/3 left-[10%] max-w-[50%] text-5xl font-medium">
+        {fullName}
+      </div>
     </main>
   )
 }
