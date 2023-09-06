@@ -41,7 +41,7 @@ export default function Home() {
             pictureImport.width / pictureImport.height
           }))`
         }
-        className="object-cover w-full h-full select-none object-[55%,25%]"
+        className="object-cover w-full h-full select-none object-[55%,28%]"
       />
       <div className="absolute top-1/3 left-0 w-[50%] min-w-min max-w-full flex flex-col items-end">
         <h1 className="drop-shadow-md text-slate-100 uppercase text-4xl md:text-5xl font-medium max-md:ml-8">
