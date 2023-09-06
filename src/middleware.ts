@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
         'default-src': [`'self'`],
         'script-src': [`'self'`, `'nonce-${nonce}'`, `'strict-dynamic'`],
         'style-src': [`'self'`, `'unsafe-inline'`],
+        'connect-src': ['https://vitals.vercel-insights.com'],
         'img-src': [`'self'`, `blob:`, `data:`],
         'font-src': [`'self'`],
         'object-src': [`'none'`],
