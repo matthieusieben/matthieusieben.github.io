@@ -2,20 +2,11 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "no-restricted-syntax": "error",
-    "no-extra-parens": [
-      "error",
-      "all",
-      {
-        "conditionalAssign": false,
-        "nestedBinaryExpressions": false,
-        "ignoreJSX": "multi-line"
-      }
-    ],
     "prefer-const": "error"
   },
   "overrides": [
     {
-      "files": ["opengraph-image.tsx"],
+      "files": ["opengraph-image.*"],
       "rules": {
         "@next/next/no-img-element": "off"
       }
