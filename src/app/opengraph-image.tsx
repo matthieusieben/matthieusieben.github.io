@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/server'
 
-import { fullName, fullTitle } from '../constants'
-import portraitUrl from '../../public/portrait.jpg'
+import { fullName, fullTitle } from '@/constants'
+import portraitUrl from '~/portrait.jpg'
+
 import { assetDataUri } from './actions'
 
 export const runtime = 'nodejs'
