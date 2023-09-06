@@ -1,5 +1,6 @@
-import './globals.css'
 import { Fira_Code, Inter } from 'next/font/google'
+
+import './globals.css'
 
 const sansFont = Inter({ variable: '--sans-font', subsets: ['latin'] })
 const monoFont = Fira_Code({ variable: '--mono-font', subsets: ['latin'] })
