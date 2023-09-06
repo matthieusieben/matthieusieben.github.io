@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -7,16 +8,11 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      display: ['Inter', 'system-ui', 'sans-serif'],
-      body: ['Inter', 'system-ui', 'sans-serif'],
+      sans: ['var(--sans-font)', ...defaultTheme.fontFamily.sans],
+      mono: ['var(--code-font)', ...defaultTheme.fontFamily.mono],
+      source: ['var(--source-font)', ...defaultTheme.fontFamily.sans],
     },
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }
