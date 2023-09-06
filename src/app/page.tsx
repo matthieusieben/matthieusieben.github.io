@@ -34,8 +34,6 @@ export default function Home() {
         src={pictureImport}
         alt={fullName}
         quality={90}
-        layout="fill"
-        objectFit="cover"
         placeholder="blur"
         sizes={
           // Full screen, make sure we pick the larger of the two dimensions
@@ -43,12 +41,12 @@ export default function Home() {
             pictureImport.width / pictureImport.height
           }))`
         }
-        className="w-full h-full select-none max-md:object-[55%] [@media(max-height:639px)]:object-[55%,25%]"
+        className="object-cover w-full h-full select-none object-[55%,25%]"
       />
-      <div className="absolute top-1/3 left-0 w-[50%] min-w-min max-w-fit flex flex-col items-end pl-8">
-        <span className="drop-shadow-md text-slate-100 uppercase text-4xl md:text-5xl font-medium">
+      <div className="absolute top-1/3 left-0 w-[50%] min-w-min max-w-full flex flex-col items-end">
+        <h1 className="drop-shadow-md text-slate-100 uppercase text-4xl md:text-5xl font-medium max-md:ml-8">
           {fullName}
-        </span>
+        </h1>
       </div>
     </main>
   )
