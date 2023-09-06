@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server'
 
-import { fullName, fullTitle } from '@/constants'
+import { fullName, fullTitle } from '@/utils/constants'
 import portraitUrl from '~/portrait.jpg'
 
 import { assetDataUri } from './actions'

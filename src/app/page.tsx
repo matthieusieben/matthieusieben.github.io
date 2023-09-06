@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 import pictureImport from '~/picture.jpg'
-import { fullName, fullTitle, origin } from '@/constants'
+import { fullName, fullTitle, origin } from '@/utils/constants'
 
 export const metadata: Metadata = {
   title: `${fullName} | ${fullTitle}`,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Home() {
+export default function Home(props: { params?: {} }) {
   return (
     <main className="w-full h-screen relative overflow-hidden">
       <Image
