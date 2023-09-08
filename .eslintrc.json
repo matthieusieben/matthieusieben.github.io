@@ -1,7 +1,36 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/strict-type-checked",
+    "next/core-web-vitals"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "root": true,
   "rules": {
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "varsIgnorePattern": "^_", "args": "none" }
+    ],
+    "import/no-anonymous-default-export": [
+      "warn",
+      {
+        "allowArray": true,
+        "allowArrowFunction": true,
+        "allowAnonymousClass": false,
+        "allowAnonymousFunction": false,
+        "allowCallExpression": true, // The true value here is for backward compatibility
+        "allowNew": true,
+        "allowLiteral": true,
+        "allowObject": true
+      }
+    ],
     "no-restricted-syntax": "error",
+    "no-unreachable": "error",
     "prefer-const": "error"
   },
   "overrides": [
