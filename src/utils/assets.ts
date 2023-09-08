@@ -2,9 +2,8 @@
 
 import { join, normalize } from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { getType } from 'mime'
 
-const assetsRoot = join(process.cwd(), '.next')
+import { getType } from 'mime'
 
 export async function assetDataUri(path: string) {
   const contentType = getType(path)
@@ -15,7 +14,7 @@ export async function assetDataUri(path: string) {
     ''
   )
 
-  const filePath = join(assetsRoot, assetPath)
+  const filePath = join(process.cwd(), '.next', assetPath)
   const content = await readFile(filePath)
   return `data:${contentType};base64,${content.toString('base64')}`
 }

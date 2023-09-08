@@ -1,11 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import buildCsp from 'content-security-policy-builder'
 
-// https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy
+import { defaultLocale } from '@/constants'
 
-export function middleware(request: NextRequest) {
+function getRedirectUrl(request: NextRequest): URL | null {
+  switch (request.nextUrl.pathname) {
+    case `/${defaultLocale}`:
+      return new URL('/', request.url)
+    default:
+      return null
+  }
+}
+
+export const middleware = function (request: NextRequest) {
+  const redirectUrl = getRedirectUrl(request)
+  if (redirectUrl) return NextResponse.redirect(redirectUrl)
+
   const headers = new Headers()
 
+  // https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy
   if (process.env.NODE_ENV !== 'development') {
     const nonce = crypto.randomUUID()
     const cspHeader = buildCsp({
@@ -14,7 +27,7 @@ export function middleware(request: NextRequest) {
         'script-src': [`'self'`, `'nonce-${nonce}'`, `'strict-dynamic'`],
         'style-src': [`'self'`, `'unsafe-inline'`],
         'connect-src': ['https://vitals.vercel-insights.com'],
-        'img-src': [`'self'`, `blob:`, `data:`],
+        'img-src': [`'self'`, `data:`],
         'font-src': [`'self'`],
         'object-src': [`'none'`],
         'base-uri': [`'self'`],
