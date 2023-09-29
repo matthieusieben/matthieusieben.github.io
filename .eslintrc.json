@@ -29,6 +29,7 @@
         "allowObject": true
       }
     ],
+    "no-extra-semi": "off",
     "no-restricted-syntax": "error",
     "no-unreachable": "error",
     "prefer-const": "error"

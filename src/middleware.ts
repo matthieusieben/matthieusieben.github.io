@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import buildCsp from 'content-security-policy-builder'
+// import buildCsp from 'content-security-policy-builder'
 
 import { defaultLocale } from '@/constants'
 
@@ -18,27 +18,27 @@ export const middleware = function (request: NextRequest) {
 
   const headers = new Headers()
 
-  // https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy
-  if (process.env.NODE_ENV !== 'development') {
-    const nonce = crypto.randomUUID()
-    const cspHeader = buildCsp({
-      directives: {
-        'default-src': [`'self'`],
-        'script-src': [`'self'`, `'nonce-${nonce}'`, `'strict-dynamic'`],
-        'style-src': [`'self'`, `'unsafe-inline'`],
-        'connect-src': ['https://vitals.vercel-insights.com'],
-        'img-src': [`'self'`, `data:`],
-        'font-src': [`'self'`],
-        'object-src': [`'none'`],
-        'base-uri': [`'self'`],
-        'form-action': [`'self'`],
-        'frame-ancestors': [`'none'`],
-        'block-all-mixed-content': true,
-        'upgrade-insecure-requests': true,
-      },
-    })
-    headers.set('Content-Security-Policy', cspHeader)
-  }
+  // // https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy
+  // if (process.env.NODE_ENV !== 'development') {
+  //   const nonce = crypto.randomUUID()
+  //   const cspHeader = buildCsp({
+  //     directives: {
+  //       'default-src': [`'self'`],
+  //       'script-src': [`'self'`, `'nonce-${nonce}'`, `'strict-dynamic'`],
+  //       'style-src': [`'self'`, `'unsafe-inline'`],
+  //       'connect-src': ['https://vitals.vercel-insights.com'],
+  //       'img-src': [`'self'`, `data:`],
+  //       'font-src': [`'self'`],
+  //       'object-src': [`'none'`],
+  //       'base-uri': [`'self'`],
+  //       'form-action': [`'self'`],
+  //       'frame-ancestors': [`'none'`],
+  //       'block-all-mixed-content': true,
+  //       'upgrade-insecure-requests': true,
+  //     },
+  //   })
+  //   headers.set('Content-Security-Policy', cspHeader)
+  // }
 
   return NextResponse.next({ headers })
 }

@@ -6,7 +6,7 @@ import { assertLocale } from '@/utils/locale'
 
 import portraitUrl from '~/portrait.jpg'
 
-export const runtime = 'nodejs'
+// export const runtime = 'nodejs'
 
 export const alt = fullName
 export const size = {

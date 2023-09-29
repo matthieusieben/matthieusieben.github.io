@@ -1,7 +1,7 @@
 import { defaultLocale } from '@/constants'
 
 import LocaleOpengraphImage from './[locale]/opengraph-image'
-export { alt, runtime, size, contentType } from './[locale]/opengraph-image'
+export { alt, size, contentType } from './[locale]/opengraph-image'
 
 // export * does not work for some reason...
 

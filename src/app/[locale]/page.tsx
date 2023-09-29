@@ -1,10 +1,14 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
+import NextLink from 'next/link'
 
-import { fullName, fullTitle, origin } from '@/constants'
-import { assertLocale } from '@/utils/locale'
+import { mdiChevronDown } from '@mdi/js'
+import Icon from '@mdi/react'
 
 import pictureImport from '~/picture.jpg'
+
+import Header from '@/components/header'
+import ScrollVisibility from '@/components/scroll-visibility'
+import { fullName, fullTitle, origin } from '@/constants'
 
 export const metadata: Metadata = {
   title: `${fullName} | ${fullTitle}`,
@@ -29,33 +33,34 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function LocaleHome({
-  params,
-}: {
-  params: { locale: string }
-}) {
-  assertLocale(params.locale)
-
+export default function LocaleHome({ params }: { params: { locale: string } }) {
   return (
-    <main className="w-full h-screen relative overflow-hidden">
-      <Image
-        src={pictureImport}
-        alt={fullName}
-        quality={90}
-        placeholder="blur"
-        sizes={
-          // Full screen, make sure we pick the larger of the two dimensions
-          `max(100vw, calc(100vh / ${
-            pictureImport.width / pictureImport.height
-          }))`
-        }
-        className="object-cover w-full h-full select-none object-[55%,28%]"
-      />
-      <div className="absolute top-1/3 left-0 w-[50%] min-w-min max-w-full flex flex-col items-end">
-        <h1 className="drop-shadow-md text-slate-100 uppercase text-4xl md:text-5xl font-medium max-md:ml-8">
-          {fullName}
-        </h1>
-      </div>
-    </main>
+    <>
+      <Header
+        title={fullName}
+        backgroundSrc={pictureImport}
+        backgroundPosition="58% 28%"
+      >
+        <ScrollVisibility
+          mode="disappear"
+          threshold="10vh"
+          className="absolute bottom-0 w-full flex justify-center items-end h-[100px]"
+          classNameHidden="transition-[opacity,transform] ease-in-out opacity-0 translate-y-[-1rem]"
+          classNameVisible="transition-[opacity,transform] ease-in-out opacity-100 translate-y-0"
+          as={NextLink}
+          id="main"
+          href="#main"
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          <Icon
+            className="drop-shadow-xl animate-bounce w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16 text-white"
+            path={mdiChevronDown}
+          ></Icon>
+        </ScrollVisibility>
+      </Header>
+
+      {/* <div style={{ height: '1000px ' }}></div> */}
+    </>
   )
 }
