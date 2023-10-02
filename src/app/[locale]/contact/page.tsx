@@ -3,7 +3,8 @@ import NextLink from 'next/link'
 
 import pictureImport from '~/picture.jpg'
 
-import Header from '@/components/header'
+import { Button } from '@/components/button'
+import { Header } from '@/components/header'
 import { fullName, fullTitle, origin } from '@/constants'
 import { assertLocale } from '@/utils/locale'
 
@@ -45,12 +46,11 @@ export default async function LocaleHome({
         backgroundPosition="58% 28%"
       ></Header>
 
-      <div style={{ height: '1000px ' }} id="main">
-        <NextLink href={`/${locale}`}>Home</NextLink>
-        <br />
-        <NextLink href={`/${locale}/contact`}>Contact</NextLink>
-        <br />
-      </div>
+      <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">
+        <Button as={NextLink} href={`/${locale}`}>
+          Home
+        </Button>
+      </main>
     </>
   )
 }

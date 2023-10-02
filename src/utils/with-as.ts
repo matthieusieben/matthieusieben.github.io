@@ -20,7 +20,17 @@ export type As =
   | ((props: any, context?: any) => ReactNode)
   | keyof JSX.IntrinsicElements
 
-export type HtmlProps<
+export type HtmlComponent<P, D extends As = 'div'> = <T extends As = D>(
+  props: HtmlProps<P, T>
+) => ReactNode
+
+type HtmlProps<
+  P,
+  T extends As = 'div',
+  ExtraOmit extends keyof any = never,
+> = MergeProps<P, T, 'as' | ExtraOmit> & { as?: T }
+
+type MergeProps<
   P,
   T extends As = 'div',
   ExtraOmit extends keyof any = never,
@@ -28,7 +38,7 @@ export type HtmlProps<
 
 export const forwardRef = baseForwardRef as <P, D extends As = 'div'>(
   render: <T extends As = D>(
-    props: HtmlProps<P, T, 'as'> & { as?: T },
+    props: HtmlProps<P, T>,
     ref: null | ForwardedRef<ElementRef<T>>
   ) => ReactNode
 ) => InternalForwardRefRenderFunction<D, P>
@@ -43,7 +53,7 @@ type InternalForwardRefRenderFunction<D extends As, P> = {
 }
 
 type InternalForwardRefRenderProps<T extends As, P> =
-  // We are using InternalHtmlProps instead of HtmlProps because it better infers
+  // We are using InternalHtmlProps instead of MergeProps because it better infers
   // the "as" type when an InternalForwardRefRenderFunction is used as "as".
   InternalHtmlProps<T, P, 'as'> & RefAttributes<ElementRef<T>> & { as?: T }
 
@@ -55,5 +65,7 @@ type InternalHtmlProps<
 
 type InternalComponentPropsWithoutRef<T extends As> =
   T extends InternalForwardRefRenderFunction<infer D, infer Props>
-    ? PropsWithoutRef<HtmlProps<Props, D, 'as'>>
+    ? PropsWithoutRef<MergeProps<Props, D, 'as'>>
+    : T extends HtmlComponent<infer Props, infer D>
+    ? PropsWithoutRef<MergeProps<Props, D, 'as'>>
     : ComponentPropsWithoutRef<T>

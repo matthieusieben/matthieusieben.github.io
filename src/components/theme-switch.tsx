@@ -1,37 +1,35 @@
 'use client'
 
-import { useState, useEffect, ComponentProps } from 'react'
-import { useTheme } from 'next-themes'
 import { mdiThemeLightDark, mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
+import Icon from '@mdi/react'
+import { useTheme } from 'next-themes'
+import { ComponentProps, useEffect, useState } from 'react'
 
 import { nextArrayItem } from '@/utils/array'
 
-import Button from './button'
-import IconButton from './icon-button'
+import { Button } from './button'
 
 type Props = Omit<ComponentProps<typeof Button<'button'>>, 'onClick'> & {
   onChange?: (theme: string) => void
 }
 
-export default function ThemeSwitch({
+export function ThemeSwitch({
   title = 'Toggle dark mode',
   onChange,
   ...props
 }: Props) {
   const [mounted, setMounted] = useState(false)
-  const { theme, themes, setTheme } = useTheme()
+  const { systemTheme, theme = systemTheme, themes, setTheme } = useTheme()
 
-  // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) {
-    return null
-  }
+  // Make sure the initial render in the browser matches the SSR rendered output
+  const ssrSafeTheme = mounted ? theme : 'light'
 
   return (
-    <IconButton
+    <Button
       onClick={(e) => {
         if (!e.defaultPrevented) {
           const nextTheme = nextArrayItem(themes, theme || 'system')
@@ -40,10 +38,11 @@ export default function ThemeSwitch({
         }
       }}
       title={title}
-      aria-label={`Current theme is ${theme}`}
-      path={themeToIcon(theme)}
+      aria-label={`Current theme is ${ssrSafeTheme}`}
       {...props}
-    />
+    >
+      <Icon path={themeToIcon(ssrSafeTheme)} size="1em" />
+    </Button>
   )
 }
 

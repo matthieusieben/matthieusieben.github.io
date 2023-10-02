@@ -6,8 +6,8 @@ import Icon from '@mdi/react'
 
 import pictureImport from '~/picture.jpg'
 
-import Header from '@/components/header'
-import ScrollVisibility from '@/components/scroll-visibility'
+import { Header } from '@/components/header'
+import { ScrollVisibility } from '@/components/scroll-visibility'
 import { fullName, fullTitle, origin } from '@/constants'
 
 export const metadata: Metadata = {
@@ -60,7 +60,18 @@ export default function LocaleHome({ params }: { params: { locale: string } }) {
         </ScrollVisibility>
       </Header>
 
-      {/* <div style={{ height: '1000px ' }}></div> */}
+      <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">
+        <article className="min-w-[50%] m-5 prose md:prose-lg lg:prose-xl prose-slate dark:prose-invert">
+          <h3>About</h3>
+          <dl>
+            <dt>\ma.tjø\</dt>
+            <dd>
+              I am a web developer specialized in full stack development of SaaS
+              platforms.
+            </dd>
+          </dl>
+        </article>
+      </main>
     </>
   )
 }

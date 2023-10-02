@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react'
+import type { HtmlComponent } from '@/utils/with-as'
 
 import Image from 'next/image'
 import type { StaticImageData } from 'next/dist/shared/lib/get-img-props'
@@ -12,7 +12,8 @@ type Props = {
   mainAnchor?: string
 }
 
-export default function Header({
+export const Header: HtmlComponent<Props, 'header'> = ({
+  as: Component = 'header' as const,
   id = 'header',
   title,
   backgroundSrc,
@@ -22,9 +23,9 @@ export default function Header({
   className,
   children,
   ...attrs
-}: HTMLAttributes<HTMLElement> & Props) {
+}) => {
   return (
-    <header
+    <Component
       className={`${className || ''} w-full h-screen relative overflow-hidden`}
       {...attrs}
     >
@@ -46,15 +47,13 @@ export default function Header({
         }}
         className={`object-cover w-full h-full select-none`}
       />
-      <div className="absolute top-1/3 left-0 w-[50%] min-w-min max-w-full flex flex-col items-end">
-        <h1
-          id={`${id}-title`}
-          className="drop-shadow-md text-slate-100 uppercase text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium max-md:ml-8"
-        >
-          {title}
-        </h1>
-      </div>
+      <h1
+        id={`${id}-title`}
+        className="absolute top-1/3 left-0 w-[40%] md:w-[50%] drop-shadow-md text-slate-100 uppercase text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium max-md:ml-8 text-right"
+      >
+        {title}
+      </h1>
       {children}
-    </header>
+    </Component>
   )
 }

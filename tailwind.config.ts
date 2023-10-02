@@ -1,3 +1,4 @@
+import typographyPlugin from '@tailwindcss/typography'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import type { Config } from 'tailwindcss'
 
@@ -13,8 +14,12 @@ const config: Config = {
       mono: ['var(--code-font)', ...defaultTheme.fontFamily.mono],
       source: ['var(--source-font)', ...defaultTheme.fontFamily.sans],
     },
-    extend: {},
+    extend: {
+      screens: {
+        hidpi: { raw: 'only screen and (min-resolution: 2dppx)' },
+      },
+    },
   },
-  plugins: [],
+  plugins: [typographyPlugin],
 }
 export default config

@@ -1,0 +1,50 @@
+$menu-size: 1em
+$line-width: 0.1em
+$line-spacing: 0.2em
+
+.container
+  position: relative
+
+  > div
+    display: inline-block
+    width: $menu-size
+    height: $menu-size
+    position: relative
+
+  span
+    position: absolute
+    display: block
+    width: $menu-size
+    height: $line-width
+    background-color: currentColor
+    border-radius: $line-width / 2
+    transition: all 0.2s ease-in-out
+
+    &:first-of-type
+      top: $menu-size / 2 - $line-spacing / 2 - $line-width
+
+    &:last-of-type
+      top: $menu-size / 2 + $line-spacing / 2
+
+.active
+  span
+    width: $menu-size * 1.1
+
+    height: 1.5 * $line-width
+    @media only screen and (min-resolution: 2dppx)
+      height: $line-width
+
+    &:first-of-type
+      transform: rotate(-45deg)
+      top: $menu-size / 2 - $line-width / 2
+    &:last-of-type
+      transform: rotate(-45deg + 90deg)
+      top: $menu-size / 2 - $line-width / 2
+
+
+.inactive:hover
+  span
+    &:first-of-type
+      width: $menu-size * 1.2
+    &:last-of-type
+      width: $menu-size * 0.6

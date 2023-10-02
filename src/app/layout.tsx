@@ -22,10 +22,10 @@ export default function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${sansFont.variable} ${monoFont.variable} scroll-smooth antialiased light`}
+      className={`${sansFont.variable} ${monoFont.variable} light`}
       style={{ colorScheme: 'light' }}
     >
-      <body className="dark:bg-gray-800">
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

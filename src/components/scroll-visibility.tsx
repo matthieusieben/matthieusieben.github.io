@@ -11,7 +11,7 @@ type Props = {
   classNameVisible?: string
 }
 
-const ScrollVisibility = forwardRef<Props>(
+export const ScrollVisibility = forwardRef<Props>(
   (
     {
       threshold = 100,
@@ -23,19 +23,18 @@ const ScrollVisibility = forwardRef<Props>(
       ...props
     },
     ref
-  ) => (
-    <Component
-      className={clsx(
-        className,
-        useScrollVisibility(mode, threshold)
-          ? classNameVisible
-          : classNameHidden
-      )}
-      ref={ref}
-      {...props}
-    />
-  )
+  ) => {
+    const visible = useScrollVisibility(mode, threshold)
+    return (
+      <Component
+        className={clsx(
+          className,
+          visible ? classNameVisible : classNameHidden
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
 )
 ScrollVisibility.displayName = 'ScrollVisibility'
-
-export default ScrollVisibility
