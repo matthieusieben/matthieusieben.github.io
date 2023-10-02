@@ -62,7 +62,7 @@ export default function LocaleHome({ params }: { params: { locale: string } }) {
 
       <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">
         <article className="min-w-[50%] m-5 prose md:prose-lg lg:prose-xl prose-slate dark:prose-invert">
-          <h3>About</h3>
+          <h2>About</h2>
           <dl>
             <dt>\ma.tjø\</dt>
             <dd>
