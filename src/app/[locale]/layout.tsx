@@ -31,7 +31,7 @@ export default function LocaleLayout({
         <NavbarTitle
           subtitle="Web developer"
           as={NextLink}
-          href={locale === defaultLocale ? '/' : `/${locale}`}
+          href="/"
           aria-label="Home page"
         >
           {fullName}
