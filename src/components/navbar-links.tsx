@@ -98,7 +98,7 @@ type NavbarLinkItemProps = {
 
 export const NavbarLinkItem: FC<NavbarLinkItemProps> = ({ children }) => {
   return (
-    <li role="presentation" className="flex justify-stretch md:mx-1">
+    <li role="menuitem" className="flex justify-stretch md:mx-1">
       {children}
     </li>
   )
