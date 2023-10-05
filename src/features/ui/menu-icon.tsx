@@ -2,20 +2,24 @@
 
 import type { MouseEvent, PointerEvent } from 'react'
 
-import cssModule from './menu-icon.module.sass'
-import { HtmlComponent } from '@/utils/with-as'
+import { PolymorphicComponent } from '@/utils/polymorphic-component'
 import { clsx } from '@/utils/clsx'
+
+import classes from './menu-icon.module.sass' assert { type: 'css' }
 
 type Props = {
   active?: boolean
+  size?: number | string
   setActive?: (active: boolean) => void
 }
 
-export const MenuIcon: HtmlComponent<Props> = ({
+export const MenuIcon: PolymorphicComponent<Props> = ({
   as: Component = 'div' as const,
   active = false,
+  size,
   setActive,
   className,
+  style,
   ...props
 }) => {
   const onClick = setActive
@@ -30,14 +34,18 @@ export const MenuIcon: HtmlComponent<Props> = ({
   return (
     <Component
       className={clsx(
-        cssModule.container,
-        active ? cssModule.active : cssModule.inactive,
+        classes.container,
+        active ? classes.active : classes.inactive,
         className
       )}
+      style={{
+        ...style,
+        fontSize: size || '1em',
+      }}
       onClick={onClick}
       {...props}
     >
-      <div>
+      <div aria-hidden="true">
         <span></span>
         <span></span>
       </div>

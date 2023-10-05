@@ -1,12 +1,14 @@
+import { readFile } from 'node:fs/promises'
+import { join, normalize } from 'node:path'
+
+import { getType } from 'mime'
+import { notFound } from 'next/navigation'
 import { ImageResponse } from 'next/server'
 
-import { fullName, fullTitle } from '@/constants'
-import { assetDataUri } from '@/utils/assets'
-import { assertLocale } from '@/utils/locale'
+import { fullName, fullTitle, locales } from '@/constants'
+import { arrayIncludes } from '@/utils/array'
 
 import portraitUrl from '~/portrait.jpg'
-
-// export const runtime = 'nodejs'
 
 export const alt = fullName
 export const size = {
@@ -17,11 +19,12 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function LocaleOpengraphImage({
-  params,
+  params: { locale },
 }: {
   params: { locale: string }
 }) {
-  assertLocale(params.locale)
+  if (!arrayIncludes(locales, locale)) notFound()
+
   const src = await assetDataUri(portraitUrl.src)
 
   return new ImageResponse(
@@ -43,4 +46,18 @@ export default async function LocaleOpengraphImage({
       height: size.height,
     }
   )
+}
+
+export async function assetDataUri(path: string) {
+  const contentType = getType(path)
+  if (!contentType) throw new Error(`Unknown content type for ${path}`)
+
+  const assetPath = normalize(path.replace(/^\/_next\//, '')).replace(
+    /^(\.\.(\/|\\|$))+/,
+    ''
+  )
+
+  const filePath = join(process.cwd(), '.next', assetPath)
+  const content = await readFile(filePath)
+  return `data:${contentType};base64,${content.toString('base64')}`
 }

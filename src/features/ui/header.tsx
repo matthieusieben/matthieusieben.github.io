@@ -1,4 +1,4 @@
-import type { HtmlComponent } from '@/utils/with-as'
+import type { PolymorphicComponent } from '@/utils/polymorphic-component'
 
 import Image from 'next/image'
 import type { StaticImageData } from 'next/dist/shared/lib/get-img-props'
@@ -12,7 +12,7 @@ type Props = {
   mainAnchor?: string
 }
 
-export const Header: HtmlComponent<Props, 'header'> = ({
+export const Header: PolymorphicComponent<Props, 'header'> = ({
   as: Component = 'header' as const,
   id = 'header',
   title,

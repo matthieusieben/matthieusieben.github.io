@@ -6,9 +6,9 @@ import Icon from '@mdi/react'
 
 import pictureImport from '~/picture.jpg'
 
-import { Header } from '@/components/header'
-import { ScrollVisibility } from '@/components/scroll-visibility'
+import { Header } from '@/features/ui/header'
 import { fullName, fullTitle, origin } from '@/constants'
+import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
 
 export const metadata: Metadata = {
   title: `${fullName} | ${fullTitle}`,
@@ -39,7 +39,7 @@ export default function LocaleHome({ params }: { params: { locale: string } }) {
       <Header
         title={fullName}
         backgroundSrc={pictureImport}
-        backgroundPosition="58% 28%"
+        backgroundPosition="60% 28%"
       >
         <ScrollVisibility
           mode="disappear"

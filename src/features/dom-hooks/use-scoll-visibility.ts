@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-export function useScrollVisibility(
-  mode: 'appear' | 'disappear',
-  threshold: number | `${number}vh`
-) {
+export type Mode = 'appear' | 'disappear'
+export type Threshold = number | `${number}vh`
+
+export function useScrollVisibility(mode: Mode, threshold: Threshold) {
   const [visible, setVisible] = useState(mode === 'disappear')
 
   useEffect(() => {

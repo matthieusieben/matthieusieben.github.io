@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import NextLink from 'next/link'
+import { notFound } from 'next/navigation'
 
 import pictureImport from '~/picture.jpg'
 
-import { Button } from '@/components/button'
-import { Header } from '@/components/header'
-import { fullName, fullTitle, origin } from '@/constants'
-import { assertLocale } from '@/utils/locale'
+import { fullName, fullTitle, locales, origin } from '@/constants'
+import { Button } from '@/features/ui/button'
+import { Header } from '@/features/ui/header'
+import { arrayIncludes } from '@/utils/array'
 
 export const metadata: Metadata = {
   title: `${fullName} | ${fullTitle}`,
@@ -36,14 +37,14 @@ export default async function LocaleHome({
 }: {
   params: { locale: string }
 }) {
-  assertLocale(locale)
+  if (!arrayIncludes(locales, locale)) notFound()
 
   return (
     <>
       <Header
         title={fullName}
         backgroundSrc={pictureImport}
-        backgroundPosition="58% 28%"
+        backgroundPosition="60% 28%"
       ></Header>
 
       <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">

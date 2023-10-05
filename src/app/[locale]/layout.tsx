@@ -1,16 +1,16 @@
+import NextLink from 'next/link'
 import type { ReactNode } from 'react'
 
 import { mdiGithub, mdiLinkedin } from '@mdi/js'
-import Icon from '@mdi/react'
-import NextLink from 'next/link'
 
-import { Button } from '@/components/button'
-import { Navbar } from '@/components/navbar'
-import { NavbarLinkItem, NavbarLinks } from '@/components/navbar-links'
-import { NavbarTitle } from '@/components/navbar-title'
-import { ScrollVisibility } from '@/components/scroll-visibility'
-import { ThemeSwitch } from '@/components/theme-switch'
 import { defaultLocale, fullName } from '@/constants'
+import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
+import { ThemeSwitch } from '@/features/theme/theme-switch'
+import { Button } from '@/features/ui/button'
+import { ButtonIcon } from '@/features/ui/button-icon'
+import { Navbar } from '@/features/ui/navbar'
+import { NavbarLinkItem, NavbarLinks } from '@/features/ui/navbar-links'
+import { NavbarTitle } from '@/features/ui/navbar-title'
 
 export default function LocaleLayout({
   children,
@@ -32,38 +32,39 @@ export default function LocaleLayout({
           subtitle="Web developer"
           as={NextLink}
           href="/"
-          aria-label="Home page"
+          title="Home page"
         >
           {fullName}
         </NavbarTitle>
-        <Button
-          as={NextLink}
-          href={'https://github.com/matthieusieben'}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Github page"
-        >
-          <Icon path={mdiGithub} size="1em" />
-        </Button>
-        <Button
-          as={NextLink}
-          href={'https://www.linkedin.com/in/matthieusieben/'}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Linkedin profile"
-        >
-          <Icon path={mdiLinkedin} size="1em" />
-        </Button>
         <NavbarLinks>
+          <ButtonIcon
+            as={NextLink}
+            href={'https://github.com/matthieusieben'}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Github page"
+            path={mdiGithub}
+          >
+            <span className="md:hidden">Github page</span>
+          </ButtonIcon>
+          <ButtonIcon
+            as={NextLink}
+            href={'https://www.linkedin.com/in/matthieusieben/'}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Linkedin profile"
+            path={mdiLinkedin}
+          >
+            <span className="md:hidden">Linkedin profile</span>
+          </ButtonIcon>
           <NavbarLinkItem key="home">
             <Button
               className="grow"
               as={NextLink}
               prefetch={false}
               href={locale === defaultLocale ? '/' : `/${locale}`}
-            >
-              Home
-            </Button>
+              title="Home"
+            />
           </NavbarLinkItem>
           <NavbarLinkItem key="contact">
             <Button
@@ -71,12 +72,16 @@ export default function LocaleLayout({
               as={NextLink}
               prefetch={false}
               href={`/${locale}/contact`}
-            >
-              Contact
-            </Button>
+              title="Contact"
+            />
           </NavbarLinkItem>
         </NavbarLinks>
-        <ThemeSwitch />
+        <ThemeSwitch
+          classes={{
+            light: 'text-sky-700 dark:text-sky-700',
+            dark: 'text-amber-400 dark:text-amber-400',
+          }}
+        />
       </ScrollVisibility>
 
       {children}

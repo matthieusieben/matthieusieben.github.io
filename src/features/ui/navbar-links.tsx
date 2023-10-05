@@ -1,16 +1,19 @@
 'use client'
 
-import type { FC, ReactElement, ReactNode } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 import { useCallback, useRef, useState } from 'react'
 
 import { clsx } from '@/utils/clsx'
-import type { HtmlComponent } from '@/utils/with-as'
+import type {
+  HtmlComponent,
+  PolymorphicComponent,
+} from '@/utils/polymorphic-component'
 
+import { useClickOutside } from '@/features/dom-hooks/use-click-outside'
+import { useEscapeKey } from '@/features/dom-hooks/use-escape-key'
+import { useIntersecting } from '@/features/dom-hooks/use-intersection-observer'
 import { Button } from './button'
-import { useClickOutside } from '@/hooks/use-click-outside'
-import { useEscapeKey } from '@/hooks/use-escape-key'
-import { useIntersecting } from '@/hooks/use-intersection-observer'
 import { MenuIcon } from './menu-icon'
 
 type Props = {
@@ -20,7 +23,7 @@ type Props = {
     | Iterable<ReactElement<NavbarLinkItemProps, typeof NavbarLinkItem>>
 }
 
-export const NavbarLinks: HtmlComponent<Props, 'ul'> = ({
+export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
   as: Component = 'ul' as const,
   id = 'navbar',
   className,
@@ -73,7 +76,12 @@ export const NavbarLinks: HtmlComponent<Props, 'ul'> = ({
         aria-haspopup={true}
         aria-expanded={visible}
       >
-        <MenuIcon className="p-3 -m-3" active={visible} />
+        <MenuIcon
+          aria-hidden="true"
+          active={visible}
+          size="1.2em"
+          style={{ margin: '-0.1em' }}
+        />
       </Button>
 
       <Component
@@ -96,10 +104,15 @@ type NavbarLinkItemProps = {
   children: ReactNode
 }
 
-export const NavbarLinkItem: FC<NavbarLinkItemProps> = ({ children }) => {
+export const NavbarLinkItem: HtmlComponent<'li', NavbarLinkItemProps> = ({
+  className,
+  ...props
+}) => {
   return (
-    <li role="menuitem" className="flex justify-stretch md:mx-1">
-      {children}
-    </li>
+    <li
+      role="menuitem"
+      className={clsx('flex justify-stretch md:mx-1', className)}
+      {...props}
+    />
   )
 }
