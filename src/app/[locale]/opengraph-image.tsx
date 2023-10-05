@@ -18,6 +18,11 @@ export const size = {
 
 export const contentType = 'image/png'
 
+// https://github.com/vercel/next.js/issues/51147
+// export async function generateStaticParams() {
+//   return locales.map((locale) => ({ locale }))
+// }
+
 export default async function LocaleOpengraphImage({
   params: { locale },
 }: {

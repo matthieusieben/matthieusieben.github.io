@@ -1,15 +1,30 @@
-import { type NextRequest, NextResponse } from 'next/server'
+import Accept from '@hapi/accept'
+import { NextRequest, NextResponse } from 'next/server'
 // import buildCsp from 'content-security-policy-builder'
 
-import { defaultLocale } from '@/constants'
+import { locales } from '@/constants'
+import { arrayIncludes } from '@/utils/array'
+
+function negotiateRequestLocale(
+  request: NextRequest,
+  allowedLocales: readonly [string, ...string[]]
+): string {
+  const acceptLanguage = request.headers.get('Accept-Language')
+  if (!acceptLanguage) return allowedLocales[0]
+
+  // https://github.com/hapijs/accept/pull/73/files
+  const acceptedLocale = Accept.language(acceptLanguage, [...allowedLocales])
+  if (!acceptedLocale) return allowedLocales[0]
+
+  return acceptedLocale
+}
 
 function getRedirectUrl(request: NextRequest): URL | null {
-  switch (request.nextUrl.pathname) {
-    case `/${defaultLocale}`:
-      return new URL('/', request.url)
-    default:
-      return null
-  }
+  const firstSegment = request.nextUrl.pathname.split('/', 2)[1]
+  if (arrayIncludes(locales, firstSegment)) return null
+
+  const locale = negotiateRequestLocale(request, locales)
+  return new URL(`/${locale}${request.nextUrl.pathname}`, request.url)
 }
 
 export const middleware = function (request: NextRequest) {
@@ -48,12 +63,12 @@ export const config = {
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
+     * - _next (Next.js files)
      * - favicon.ico (favicon file)
      */
     {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      source:
+        '/((?!api|_next|robots.txt|sitemap.xml|favicon.ico|apple-icon|icon).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },

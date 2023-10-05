@@ -1,0 +1,23 @@
+{
+  "pages": {
+    "home": {
+      "title": "Accueil"
+    },
+    "about": {
+      "title": "À propos",
+      "subtitle": "\\ma.tjø\\",
+      "description": "Je suis un développeur web fullstack passionné par les nouvelles technologies et les défis techniques. J'aime travailler sur des projets innovants et ambitieux."
+    },
+    "contact": {
+      "title": "Contact"
+    }
+  },
+  "links": {
+    "github": {
+      "title": "Page Github"
+    },
+    "linkedin": {
+      "title": "Profile Linkedin"
+    }
+  }
+}

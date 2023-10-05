@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import pictureImport from '~/picture.jpg'
 
 import { fullName, fullTitle, locales, origin } from '@/constants'
+import { getDictionary } from '@/dictionaries'
 import { Button } from '@/features/ui/button'
 import { Header } from '@/features/ui/header'
 import { arrayIncludes } from '@/utils/array'
@@ -39,6 +40,8 @@ export default async function LocaleHome({
 }) {
   if (!arrayIncludes(locales, locale)) notFound()
 
+  const d = await getDictionary(locale)
+
   return (
     <>
       <Header
@@ -49,7 +52,7 @@ export default async function LocaleHome({
 
       <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">
         <Button as={NextLink} href={`/${locale}`}>
-          Home
+          {d.pages.home.title}
         </Button>
       </main>
     </>

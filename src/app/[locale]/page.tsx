@@ -6,9 +6,10 @@ import Icon from '@mdi/react'
 
 import pictureImport from '~/picture.jpg'
 
-import { Header } from '@/features/ui/header'
 import { fullName, fullTitle, origin } from '@/constants'
+import { getDictionary } from '@/dictionaries'
 import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
+import { Header } from '@/features/ui/header'
 
 export const metadata: Metadata = {
   title: `${fullName} | ${fullTitle}`,
@@ -33,7 +34,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LocaleHome({ params }: { params: { locale: string } }) {
+export default async function LocaleHome({
+  params: { locale },
+}: {
+  params: { locale: string }
+}) {
+  const d = await getDictionary(locale)
+
   return (
     <>
       <Header
@@ -62,13 +69,10 @@ export default function LocaleHome({ params }: { params: { locale: string } }) {
 
       <main className="mx-auto container min-h-screen flex flex-col items-center justify-center">
         <article className="min-w-[50%] m-5 prose md:prose-lg lg:prose-xl prose-slate dark:prose-invert">
-          <h2>About</h2>
+          <h2>{d.pages.about.title}</h2>
           <dl>
-            <dt>\ma.tjø\</dt>
-            <dd>
-              I am a web developer specialized in full stack development of SaaS
-              platforms.
-            </dd>
+            <dt>{d.pages.about.subtitle}</dt>
+            <dd>{d.pages.about.description}</dd>
           </dl>
         </article>
       </main>

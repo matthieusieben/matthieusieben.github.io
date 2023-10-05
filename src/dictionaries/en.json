@@ -1,0 +1,23 @@
+{
+  "pages": {
+    "home": {
+      "title": "Home"
+    },
+    "about": {
+      "title": "About",
+      "subtitle": "\\ma.tjø\\",
+      "description": "I'm a software engineer with a passion for web development."
+    },
+    "contact": {
+      "title": "Contact"
+    }
+  },
+  "links": {
+    "github": {
+      "title": "Github page"
+    },
+    "linkedin": {
+      "title": "Linkedin profile"
+    }
+  }
+}
