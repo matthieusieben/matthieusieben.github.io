@@ -18,13 +18,11 @@ export const size = {
 export const contentType = 'image/png'
 
 type Props = {
-  params: { locale?: string }
+  params?: { locale?: string }
 }
 
-export default async function OpengraphImage({
-  params: { locale = defaultLocale },
-}: Props) {
-  const d = await getDictionary(locale)
+export default async function OpengraphImage({ params }: Props) {
+  const d = await getDictionary(params?.locale || defaultLocale)
   const src = await assetDataUri(portraitUrl.src)
 
   return new ImageResponse(
