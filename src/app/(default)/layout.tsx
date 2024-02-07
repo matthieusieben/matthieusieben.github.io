@@ -17,6 +17,11 @@ type Props = {
   children: ReactNode
 }
 
+// This file is not at the root because we want the locale param to dynamically
+// change with the locale in the URL. To achieve this, localized pages need
+// their own "layout.tsx" file. The only way of havin multiple root layout files
+// is to have none at the root, and use layout files namespaced folders
+// ("(default)", "[locale]").
 export default function RootLayout({
   params: { locale = defaultLocale },
   children,

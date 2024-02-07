@@ -17,6 +17,10 @@ type Props = {
   params?: { locale?: string }
 }
 
+// We want this image to be part of the "parent" ResolvedMetadata in
+// generateMetadata of all pages. In order to achieve this, the
+// opengraph-image.tsx file must be in a parent directory of the pages where we
+// want this behavior. this is achieved thanks to the "(default)" folder.
 export default async function OpengraphImage({ params }: Props) {
   const d = await getDictionary(params?.locale || defaultLocale)
   const src = await fetchAsset(portraitUrl.src)
