@@ -1,46 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useAbortEffect as useEffect } from './use-abort-effect'
+import { useMousePosition } from './use-mouse-position'
+import { useWindowDimensions, Dimensions } from './use-window-dimensions'
 
 export type Mode = 'appear' | 'disappear'
 export type Threshold = number | `${number}vh`
 
-export function useScrollVisibility(mode: Mode, threshold: Threshold) {
+export function useScrollVisibility(
+  mode: Mode,
+  threshold: Threshold,
+  throttleDelay = 200
+) {
   const [visible, setVisible] = useState(mode === 'disappear')
 
+  const dimensions = useWindowDimensions(throttleDelay)
+  const position = useMousePosition(throttleDelay)
+
   useEffect(() => {
-    setVisible(computeVisibility(mode, threshold))
-
-    const updateVisibility = () => {
-      setVisible(computeVisibility(mode, threshold))
-    }
-
-    window.addEventListener('scroll', updateVisibility)
-    window.addEventListener('resize', updateVisibility)
-
-    return () => {
-      window.removeEventListener('scroll', updateVisibility)
-      window.removeEventListener('resize', updateVisibility)
-    }
-  }, [mode, threshold])
+    const thresholdPx = parseThreshold(threshold, dimensions)
+    const shouldBeVisible =
+      dimensions.scrollY > thresholdPx ||
+      (position?.clientY || NaN) < thresholdPx
+    setVisible(mode === 'disappear' ? !shouldBeVisible : shouldBeVisible)
+  }, [mode, threshold, dimensions, position])
 
   return visible
 }
 
-function computeVisibility(
-  mode: 'appear' | 'disappear',
-  threshold: number | `${number}vh`
-) {
-  const thresholdPx = parseThreshold(threshold)
-  if (mode === 'disappear') return !isThresholdPassed(thresholdPx)
-  return isThresholdPassed(thresholdPx)
-}
-
-function parseThreshold(threshold: number | `${number}vh`): number {
+function parseThreshold(
+  threshold: number | `${number}vh`,
+  dimensions: Dimensions
+): number {
   if (typeof threshold === 'number') return threshold
-  const vh = window.innerHeight * 0.01
+  const vh = dimensions.innerHeight * 0.01
   const thresholdVh = Number(threshold.slice(0, -2))
   return thresholdVh * vh
-}
-
-function isThresholdPassed(threshold: number) {
-  return window.scrollY > threshold
 }
