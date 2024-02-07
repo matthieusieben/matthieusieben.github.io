@@ -17,10 +17,6 @@ type Props = {
   children: ReactNode
 }
 
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
-}
-
 export default function RootLayout({
   params: { locale = defaultLocale },
   children,
