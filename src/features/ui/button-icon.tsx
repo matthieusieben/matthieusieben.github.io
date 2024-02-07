@@ -43,10 +43,7 @@ export const ButtonIcon = forwardRef<Props, 'button'>(
           rotate={rotate}
           spin={spin}
           size="1.2em"
-          style={{
-            margin: '-0.1em',
-            marginRight: children ? '0.5em' : undefined,
-          }}
+          style={{ margin: '-0.1em' }}
         />
         {children}
       </Button>
