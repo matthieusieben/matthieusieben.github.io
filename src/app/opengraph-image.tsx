@@ -1,10 +1,6 @@
-import { readFile } from 'node:fs/promises'
-import { join, normalize } from 'node:path'
-
-import { getType } from 'mime'
 import { ImageResponse } from 'next/server'
 
-import { defaultLocale, fullName } from '@/constants'
+import { defaultLocale, fullName, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 
 import portraitUrl from '~/portrait.jpg'
@@ -23,7 +19,7 @@ type Props = {
 
 export default async function OpengraphImage({ params }: Props) {
   const d = await getDictionary(params?.locale || defaultLocale)
-  const src = await assetDataUri(portraitUrl.src)
+  const src = await fetchAsset(portraitUrl.src)
 
   return new ImageResponse(
     (
@@ -46,16 +42,13 @@ export default async function OpengraphImage({ params }: Props) {
   )
 }
 
-export async function assetDataUri(path: string) {
-  const contentType = getType(path)
+export async function fetchAsset(path: string) {
+  const data = await fetch(new URL(path, origin))
+  if (!data.ok) throw new Error(`Failed to fetch ${path}`)
+
+  const contentType = data.headers.get('content-type')
   if (!contentType) throw new Error(`Unknown content type for ${path}`)
 
-  const assetPath = normalize(path.replace(/^\/_next\//, '')).replace(
-    /^(\.\.(\/|\\|$))+/,
-    ''
-  )
-
-  const filePath = join(process.cwd(), '.next', assetPath)
-  const content = await readFile(filePath)
+  const content = Buffer.from(await data.arrayBuffer())
   return `data:${contentType};base64,${content.toString('base64')}`
 }
