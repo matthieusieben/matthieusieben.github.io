@@ -1,17 +1,16 @@
-import { ReactNode } from 'react'
 import NextLink from 'next/link'
-
-import { mdiGithub, mdiLinkedin } from '@mdi/js'
+import { ReactNode } from 'react'
+import { mdiEmailOutline, mdiGithub, mdiLinkedin, mdiTwitter } from '@mdi/js'
 
 import { fullName } from '@/constants'
+import { getDictionary } from '@/dictionaries'
+import { blueskySvgPath24 } from '@/features/icons/bluesky'
+import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
 import { ThemeSwitch } from '@/features/theme/theme-switch'
-import { Button } from '@/features/ui/button'
 import { ButtonIcon } from '@/features/ui/button-icon'
 import { Navbar } from '@/features/ui/navbar'
-import { NavbarLinkItem, NavbarLinks } from '@/features/ui/navbar-links'
+import { NavbarLinks } from '@/features/ui/navbar-links'
 import { NavbarTitle } from '@/features/ui/navbar-title'
-import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
-import { getDictionary } from '@/dictionaries'
 
 type Props = {
   locale: string
@@ -43,23 +42,54 @@ export async function AppLayout({ locale, children }: Props) {
             as={NextLink}
             href={'https://github.com/matthieusieben'}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me"
             title={d.links.github.title}
             path={mdiGithub}
           >
-            <span className="md:hidden">{d.links.github.title}</span>
+            <span className="md:hidden ml-2">{d.links.github.title}</span>
+          </ButtonIcon>
+          <ButtonIcon
+            as={NextLink}
+            href={'https://bsky.app/profile/matthieusieben.com'}
+            target="_blank"
+            rel="me"
+            title={d.links.bluesky.title}
+            path={blueskySvgPath24}
+          >
+            <span className="md:hidden ml-2">{d.links.bluesky.title}</span>
+          </ButtonIcon>
+          <ButtonIcon
+            as={NextLink}
+            href={'https://twitter.com/matthieusieben'}
+            target="_blank"
+            rel="me"
+            title={d.links.twitter.title}
+            path={mdiTwitter}
+          >
+            <span className="md:hidden ml-2">{d.links.twitter.title}</span>
           </ButtonIcon>
           <ButtonIcon
             as={NextLink}
             href={'https://www.linkedin.com/in/matthieusieben/'}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me"
             title={d.links.linkedin.title}
             path={mdiLinkedin}
           >
-            <span className="md:hidden">{d.links.linkedin.title}</span>
+            <span className="md:hidden ml-2">{d.links.linkedin.title}</span>
           </ButtonIcon>
-          <NavbarLinkItem key="home">
+          <ButtonIcon
+            as={NextLink}
+            href={'mailto:matthieu.sieben+ws@gmail.com'}
+            target="_blank"
+            rel="me"
+            title={d.links.email.title}
+            path={mdiEmailOutline}
+          >
+            <span className="md:hidden ml-2">{d.links.email.title}</span>
+          </ButtonIcon>
+
+          {/* <NavbarLinkItem key="home">
             <Button
               className="grow"
               as={NextLink}
@@ -76,7 +106,7 @@ export async function AppLayout({ locale, children }: Props) {
               href={`/${locale}/contact`}
               title={d.pages.contact.title}
             />
-          </NavbarLinkItem>
+          </NavbarLinkItem> */}
         </NavbarLinks>
         <ThemeSwitch
           classes={{

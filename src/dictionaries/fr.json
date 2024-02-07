@@ -13,11 +13,20 @@
     }
   },
   "links": {
+    "bluesky": {
+      "title": "Bluesky"
+    },
     "github": {
       "title": "Page Github"
     },
     "linkedin": {
       "title": "Profile Linkedin"
+    },
+    "email": {
+      "title": "Email"
+    },
+    "twitter": {
+      "title": "Twitter"
     }
   }
 }
