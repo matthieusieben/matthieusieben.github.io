@@ -1,13 +1,14 @@
 import { Fira_Code, Inter } from 'next/font/google'
 import { ReactNode } from 'react'
 
-import { defaultLocale, locales } from '@/constants'
-import { arrayIncludes } from '@/utils/array'
+import { AppContent } from '../_components/app-content'
+import { AppFooter } from '../_components/app-footer'
+import { AppHeader } from '../_components/app-header'
+import { AppNavbar } from '../_components/app-navbar'
 
-import { AppLayout } from '../_components/app-layout'
-
-import { Providers } from './providers'
 import './globals.css'
+import { Providers } from './providers'
+import { asLocale } from '@/dictionaries'
 
 const sansFont = Inter({ variable: '--sans-font', subsets: ['latin'] })
 const monoFont = Fira_Code({ variable: '--mono-font', subsets: ['latin'] })
@@ -22,20 +23,20 @@ type Props = {
 // their own "layout.tsx" file. The only way of havin multiple root layout files
 // is to have none at the root, and use layout files namespaced folders
 // ("(default)", "[locale]").
-export default function RootLayout({
-  params: { locale = defaultLocale },
-  children,
-}: Props) {
-  const lang = arrayIncludes(locales, locale) ? locale : defaultLocale
+export default function RootLayout({ params, children }: Props) {
+  const locale = asLocale(params.locale)
   return (
     <html
-      lang={lang}
+      lang={locale}
       className={`${sansFont.variable} ${monoFont.variable} light`}
       style={{ colorScheme: 'light' }}
     >
       <body>
-        <Providers locale={lang}>
-          <AppLayout locale={lang}>{children}</AppLayout>
+        <Providers locale={locale}>
+          <AppNavbar locale={locale} />
+          <AppHeader locale={locale} />
+          <AppContent locale={locale}>{children}</AppContent>
+          <AppFooter locale={locale} />
         </Providers>
       </body>
     </html>

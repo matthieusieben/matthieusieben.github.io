@@ -11,12 +11,12 @@ import { Navbar } from '@/features/ui/navbar'
 import { NavbarLinks } from '@/features/ui/navbar-links'
 import { NavbarTitle } from '@/features/ui/navbar-title'
 
-export async function AppLayout({
+export async function AppNavbar({
   locale,
   children,
 }: {
   locale: string
-  children: ReactNode
+  children?: ReactNode
 }) {
   const d = await getDictionary(locale)
   return (
@@ -30,13 +30,14 @@ export async function AppLayout({
         role="presentation"
       >
         <NavbarTitle
-          subtitle="Web developer"
+          subtitle={d.title}
           as={NextLink}
           href={`/${locale}`}
           title={d.pages.home.title}
         >
           {d.name}
         </NavbarTitle>
+        {children}
         <NavbarLinks>
           <ButtonIcon
             as={NextLink}
@@ -96,8 +97,6 @@ export async function AppLayout({
           }}
         />
       </ScrollVisibility>
-
-      {children}
     </>
   )
 }

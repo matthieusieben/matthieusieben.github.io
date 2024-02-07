@@ -1,15 +1,5 @@
-import { locales } from '@/constants'
+import ContactPage from '#/contact/page'
+export { generateMetadata } from '#/contact/page'
+export { generateStaticParams } from '../../_params'
 
-import ContactPage, { generateMetadata } from '../../../(default)/contact/page'
-
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
-}
-
-export { generateMetadata }
-
-export default async function ContactPageLocalized(props: {
-  params: { locale: string }
-}) {
-  return <ContactPage {...props} />
-}
+export default ContactPage

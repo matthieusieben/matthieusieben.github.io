@@ -2,11 +2,13 @@ import { Metadata } from 'next'
 
 import { defaultLocale, locales, origin } from './constants'
 
-export const buildUrl = (locale: string, path: `/${string}` = '/') => {
+export const buildPath = (locale: string, path: `/${string}` = '/') => {
   const suffix = path === '/' ? '' : path
-  return locale === defaultLocale
-    ? `${origin}${suffix}`
-    : `${origin}/${locale}${suffix}`
+  return locale === defaultLocale ? suffix : `/${locale}${suffix}`
+}
+
+export const buildUrl = (locale: string, path: `/${string}` = '/') => {
+  return `${origin}${buildPath(locale, path)}`
 }
 
 export const buildAtlernates = (

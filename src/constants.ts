@@ -7,3 +7,7 @@ export const fullName = 'Matthieu Sieben'
 
 export const defaultLocale = 'en'
 export const locales = [defaultLocale, 'fr'] as const
+export const localesNames = {
+  en: 'English',
+  fr: 'Français',
+} as const
