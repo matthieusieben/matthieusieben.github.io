@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import 'server-only'
 
 const dictionaries = new Map([
@@ -7,6 +8,6 @@ const dictionaries = new Map([
 
 export async function getDictionary(locale: string) {
   const dictionary = dictionaries.get(locale)
-  if (!dictionary) throw new Error(`No dictionary for locale "${locale}"`)
-  return dictionary()
+  if (!dictionary) notFound()
+  return await dictionary()
 }

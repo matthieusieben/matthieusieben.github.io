@@ -1,50 +1,62 @@
-import type { Metadata } from 'next'
+import type { Metadata, ResolvingMetadata } from 'next'
 import NextLink from 'next/link'
 
 import { mdiChevronDown } from '@mdi/js'
 import Icon from '@mdi/react'
 
-import pictureImport from '~/picture.jpg'
-
-import { fullName, fullTitle, origin } from '@/constants'
+import { buildAtlernates } from '@/alternates'
+import { defaultLocale, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
 import { Header } from '@/features/ui/header'
 
-export const metadata: Metadata = {
-  title: `${fullName} | ${fullTitle}`,
-  description: fullTitle,
-  metadataBase: new URL(origin),
-  openGraph: {
-    type: 'website',
-    siteName: `${fullName} | ${fullTitle}`,
-    title: fullName,
-    description: fullTitle,
-    url: origin,
-  },
-  twitter: {
-    creator: fullName,
-    site: origin,
-    title: fullName,
-    description: fullTitle,
-  },
-  robots: {
-    index: true,
-    indexifembedded: false,
-  },
+import pictureImport from '~/picture.jpg'
+
+type Props = {
+  params: { locale?: string }
 }
 
-export default async function LocaleHome({
-  params: { locale },
-}: {
-  params: { locale: string }
-}) {
+export async function generateMetadata(
+  { params: { locale = defaultLocale } }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { openGraph } = await parent
+  const d = await getDictionary(locale)
+  return {
+    title: `${d.name} | ${d.title}`,
+    description: d.title,
+    metadataBase: new URL(origin),
+    openGraph: {
+      type: 'website',
+      siteName: `${d.name} | ${d.title}`,
+      title: d.name,
+      description: d.title,
+      url: origin,
+      images: openGraph?.images,
+    },
+    twitter: {
+      creator: d.name,
+      site: origin,
+      title: d.name,
+      description: d.title,
+    },
+    robots: {
+      index: true,
+      indexifembedded: false,
+    },
+    alternates: buildAtlernates(locale, '/'),
+  }
+}
+
+export default async function HomePage({
+  params: { locale = defaultLocale },
+}: Props) {
   const d = await getDictionary(locale)
 
   return (
     <>
       <Header
-        title={fullName}
+        title={d.name}
         backgroundSrc={pictureImport}
         backgroundPosition="60% 28%"
       >

@@ -2,7 +2,6 @@ import NextLink from 'next/link'
 import { ReactNode } from 'react'
 import { mdiEmailOutline, mdiGithub, mdiLinkedin, mdiTwitter } from '@mdi/js'
 
-import { fullName } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 import { blueskySvgPath24 } from '@/features/icons/bluesky'
 import { ScrollVisibility } from '@/features/scroll-visibility/scroll-visibility'
@@ -12,12 +11,13 @@ import { Navbar } from '@/features/ui/navbar'
 import { NavbarLinks } from '@/features/ui/navbar-links'
 import { NavbarTitle } from '@/features/ui/navbar-title'
 
-type Props = {
+export async function AppLayout({
+  locale,
+  children,
+}: {
   locale: string
   children: ReactNode
-}
-
-export async function AppLayout({ locale, children }: Props) {
+}) {
   const d = await getDictionary(locale)
   return (
     <>
@@ -35,7 +35,7 @@ export async function AppLayout({ locale, children }: Props) {
           href={`/${locale}`}
           title={d.pages.home.title}
         >
-          {fullName}
+          {d.name}
         </NavbarTitle>
         <NavbarLinks>
           <ButtonIcon
@@ -88,30 +88,11 @@ export async function AppLayout({ locale, children }: Props) {
           >
             <span className="md:hidden ml-2">{d.links.email.title}</span>
           </ButtonIcon>
-
-          {/* <NavbarLinkItem key="home">
-            <Button
-              className="grow"
-              as={NextLink}
-              prefetch={false}
-              href={`/${locale}`}
-              title={d.pages.home.title}
-            />
-          </NavbarLinkItem>
-          <NavbarLinkItem key="contact">
-            <Button
-              className="grow"
-              as={NextLink}
-              prefetch={false}
-              href={`/${locale}/contact`}
-              title={d.pages.contact.title}
-            />
-          </NavbarLinkItem> */}
         </NavbarLinks>
         <ThemeSwitch
           classes={{
-            light: '!text-sky-700 dark:!text-sky-700',
-            dark: '!text-amber-400 dark:!text-amber-400',
+            dark: '!text-sky-700 dark:!text-sky-700',
+            light: '!text-amber-400 dark:!text-amber-400',
           }}
         />
       </ScrollVisibility>
