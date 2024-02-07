@@ -17,7 +17,6 @@ export function useMousePosition(throttleDelay = 500) {
 
       const onOut = (event: MouseEvent) => {
         if (event.relatedTarget == null) {
-          console.error('out', event)
           onMove.cancel()
           setValue(undefined)
         }
