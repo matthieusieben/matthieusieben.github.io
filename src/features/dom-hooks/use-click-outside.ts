@@ -1,5 +1,5 @@
 import type { MutableRefObject } from 'react'
-import { useEffect } from 'react'
+import { useAbortEffect as useEffect } from './use-abort-effect'
 
 export function useClickOutside({
   refs,
@@ -8,19 +8,24 @@ export function useClickOutside({
   refs: MutableRefObject<HTMLElement | null>[]
   handler: (event: MouseEvent | TouchEvent) => void
 }) {
-  useEffect(() => {
-    const listener = (event: MouseEvent | TouchEvent) => {
-      if (!refs.some((ref) => ref.current?.contains(event.target as Node))) {
-        handler(event)
+  useEffect(
+    (signal) => {
+      const listener = (event: MouseEvent | TouchEvent) => {
+        if (!refs.some((ref) => ref.current?.contains(event.target as Node))) {
+          handler(event)
+        }
       }
-    }
 
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
-    return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
+      document.addEventListener('mousedown', listener, {
+        signal,
+        passive: true,
+      })
+      document.addEventListener('touchstart', listener, {
+        signal,
+        passive: true,
+      })
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handler, ...refs])
+    [handler, ...refs]
+  )
 }
