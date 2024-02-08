@@ -1,10 +1,15 @@
 import { Metadata } from 'next'
 
-import { defaultLocale, locales, origin } from './constants'
+import { availableLocales, defaultLocale, origin } from './constants'
+import { asLocale } from './locales'
 
 export const buildPath = (locale: string, path: `/${string}` = '/') => {
   const suffix = path === '/' ? '' : path
-  return locale === defaultLocale ? suffix : `/${locale}${suffix}`
+  const resolvedLocale = asLocale(locale)
+
+  return resolvedLocale === defaultLocale
+    ? suffix
+    : `/${resolvedLocale}${suffix}`
 }
 
 export const buildUrl = (locale: string, path: `/${string}` = '/') => {
@@ -18,7 +23,7 @@ export const buildAtlernates = (
   return {
     canonical: buildUrl(currentLocale, path),
     languages: Object.fromEntries(
-      locales
+      availableLocales
         .filter((altLocale) => altLocale !== currentLocale)
         .map((locale) => [locale, [{ url: buildUrl(locale, path) }]] as const)
     ),

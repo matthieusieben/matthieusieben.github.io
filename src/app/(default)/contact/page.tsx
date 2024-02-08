@@ -1,12 +1,10 @@
 import type { Metadata, ResolvingMetadata } from 'next'
 import NextLink from 'next/link'
-import { notFound } from 'next/navigation'
 
 import { buildAtlernates, buildUrl } from '@/alternates'
-import { defaultLocale, locales, origin } from '@/constants'
+import { defaultLocale, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 import { Button } from '@/features/ui/button'
-import { arrayIncludes } from '@/utils/array'
 
 type Props = {
   params: { locale?: string }
@@ -35,12 +33,10 @@ export async function generateMetadata(
 export default async function ContactPage({
   params: { locale = defaultLocale },
 }: Props) {
-  if (!arrayIncludes(locales, locale)) notFound()
-
   const d = await getDictionary(locale)
 
   return (
-    <Button as={NextLink} href={buildUrl(locale, '/')}>
+    <Button as={NextLink} href={buildUrl(locale, '/')} outlined>
       {d.pages.home.title}
     </Button>
   )

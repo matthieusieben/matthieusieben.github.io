@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
 
-import { locales } from '@/constants'
 import { buildUrl } from '@/alternates'
+import { availableLocales } from '@/constants'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
-  return locales.flatMap((locale) => [
+  return availableLocales.flatMap((locale) => [
     {
       url: buildUrl(locale, '/'),
       lastModified: now,

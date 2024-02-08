@@ -1,5 +1,5 @@
-import { locales } from '@/constants'
+import { availableLocales } from '@/constants'
 
 export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return availableLocales.map((locale) => ({ locale }))
 }

@@ -1,6 +1,8 @@
 import { Fira_Code, Inter } from 'next/font/google'
 import { ReactNode } from 'react'
 
+import { asLocale } from '@/locales'
+
 import { AppContent } from '../_components/app-content'
 import { AppFooter } from '../_components/app-footer'
 import { AppHeader } from '../_components/app-header'
@@ -8,7 +10,6 @@ import { AppNavbar } from '../_components/app-navbar'
 
 import './globals.css'
 import { Providers } from './providers'
-import { asLocale } from '@/dictionaries'
 
 const sansFont = Inter({ variable: '--sans-font', subsets: ['latin'] })
 const monoFont = Fira_Code({ variable: '--mono-font', subsets: ['latin'] })

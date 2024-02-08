@@ -2,7 +2,7 @@ import Accept from '@hapi/accept'
 import { NextRequest, NextResponse } from 'next/server'
 // import buildCsp from 'content-security-policy-builder'
 
-import { defaultLocale, locales } from '@/constants'
+import { defaultLocale, availableLocales } from '@/constants'
 import { arrayIncludes } from '@/utils/array'
 
 function negotiateRequestLocale(
@@ -21,9 +21,9 @@ function negotiateRequestLocale(
 
 function getRedirectUrl(request: NextRequest): URL | null {
   const firstSegment = request.nextUrl.pathname.split('/', 2)[1]
-  if (arrayIncludes(locales, firstSegment)) return null
+  if (arrayIncludes(availableLocales, firstSegment)) return null
 
-  const locale = negotiateRequestLocale(request, locales)
+  const locale = negotiateRequestLocale(request, availableLocales)
   if (locale === defaultLocale) return null
 
   return new URL(`/${locale}${request.nextUrl.pathname}`, request.url)

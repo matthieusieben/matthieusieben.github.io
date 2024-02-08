@@ -20,7 +20,7 @@ export const Footer: PolymorphicComponent<Props, 'footer'> = ({
       )}
       {...attrs}
     >
-      <div className="p-4 w-full mx-auto container md:flex md:items-center md:justify-between">
+      <div className="p-4 w-full mx-auto container flex items-center justify-between">
         {children}
       </div>
     </Component>
