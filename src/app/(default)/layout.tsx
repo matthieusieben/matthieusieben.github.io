@@ -36,7 +36,7 @@ export default function RootLayout({ params, children }: Props) {
         <Providers locale={locale}>
           <AppNavbar locale={locale} />
           <AppHeader locale={locale} className="snap-center" />
-          <div className="min-h-screen flex flex-col snap-center">
+          <div className="min-h-screen flex flex-col snap-center pt-12">
             <AppContent locale={locale}>{children}</AppContent>
             <AppFooter locale={locale} />
           </div>

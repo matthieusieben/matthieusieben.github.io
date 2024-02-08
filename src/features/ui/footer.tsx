@@ -15,7 +15,7 @@ export const Footer: PolymorphicComponent<Props, 'footer'> = ({
   return (
     <Component
       className={clsx(
-        'w-full h-32 flex flex-col items-center justify-center text-gray-600 dark:text-gray-400',
+        'w-full flex flex-col items-center justify-center text-gray-600 dark:text-gray-400',
         className
       )}
       {...attrs}
