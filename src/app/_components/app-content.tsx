@@ -5,6 +5,7 @@ import { clsx } from '@/utils/clsx'
 export async function AppContent({
   locale,
   className,
+  children,
   ...props
 }: ComponentProps<'div'> & { locale: string }) {
   return (
@@ -14,6 +15,8 @@ export async function AppContent({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </main>
   )
 }

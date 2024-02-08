@@ -13,9 +13,11 @@ import pictureImport from '~/picture.jpg'
 export async function AppHeader({
   locale,
   children,
+  href,
   ...props
 }: {
   locale: string
+  href?: string
   children?: ReactNode
 } & Omit<
   ComponentProps<typeof Header>,
@@ -37,8 +39,7 @@ export async function AppHeader({
         classNameHidden="transition-[opacity,transform] ease-in-out opacity-0 translate-y-[-1rem]"
         classNameVisible="transition-[opacity,transform] ease-in-out opacity-100 translate-y-0"
         as={NextLink}
-        id="main"
-        href="#main"
+        href={href}
         tabIndex={-1}
         aria-hidden="true"
       >

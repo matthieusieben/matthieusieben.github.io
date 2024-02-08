@@ -31,7 +31,7 @@ export const NavbarTitle = forwardRef<Props, 'a'>(
           {...props}
         >
           <h1 className="max-w-full text-sm md:text-base font-bold uppercase tracking-widest text-gray-800 dark:text-gray-200 truncate">
-            {children}
+            {children || props.title}
           </h1>
 
           {subtitle && (
