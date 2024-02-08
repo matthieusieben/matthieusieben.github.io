@@ -1,12 +1,11 @@
-import type { MutableRefObject } from 'react'
 import { useCallback, useEffect } from 'react'
 
 export function useIntersectionObserver({
-  ref,
+  element,
   handler,
   options,
 }: {
-  ref: MutableRefObject<HTMLElement | null>
+  element: HTMLElement | null
   handler: (
     entry: IntersectionObserverEntry,
     observer: IntersectionObserver
@@ -21,60 +20,43 @@ export function useIntersectionObserver({
   )
 
   useEffect(() => {
-    if (!ref.current) return
+    if (!element) return
     if (typeof IntersectionObserver === 'undefined') return
 
     const observer = new IntersectionObserver(localHandler, options)
-    observer.observe(ref.current)
+    observer.observe(element)
     return () => {
       observer.disconnect()
     }
-  }, [ref, localHandler, options])
-}
-
-export function useIntersectionRatio({
-  ref,
-  handler,
-  options,
-}: {
-  ref: MutableRefObject<HTMLElement | null>
-  handler: (intersectionRatio: number) => void
-  options?: IntersectionObserverInit
-}) {
-  const observerHandler = useCallback(
-    (entry: IntersectionObserverEntry) => {
-      handler(entry.intersectionRatio)
-    },
-    [handler]
-  )
-
-  useIntersectionObserver({ ref, handler: observerHandler, options })
+  }, [element, localHandler, options])
 }
 
 export function useIntersecting({
-  ref,
+  element,
   ratio = 0.5,
   handler,
   options,
 }: {
-  ref: MutableRefObject<HTMLElement | null>
+  element: HTMLElement | null
   ratio?: number
   handler: (isIntersecting: boolean) => void
   options?: IntersectionObserverInit
 }) {
-  const observerHandler = useCallback(
-    (intersectionRatio: number) => {
-      const isIntersecting =
-        ratio >= 1.0 && intersectionRatio === 1.0
-          ? true
-          : ratio <= 0.0 && intersectionRatio === 0.0
-          ? false
-          : intersectionRatio > ratio
+  useIntersectionObserver({
+    element,
+    options,
+    handler: useCallback(
+      ({ intersectionRatio }) => {
+        const isIntersecting =
+          ratio >= 1.0 && intersectionRatio === 1.0
+            ? true
+            : ratio <= 0.0 && intersectionRatio === 0.0
+              ? false
+              : intersectionRatio > ratio
 
-      handler(isIntersecting)
-    },
-    [ratio, handler]
-  )
-
-  useIntersectionRatio({ ref, handler: observerHandler, options })
+        handler(isIntersecting)
+      },
+      [ratio, handler]
+    ),
+  })
 }

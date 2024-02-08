@@ -1,53 +1,79 @@
 'use client'
 
-import type { MutableRefObject } from 'react'
-import { useCallback, useState } from 'react'
+import { RefCallback, useCallback, useState } from 'react'
 
 import { useClickOutside } from './use-click-outside'
 import { useEscapeKey } from './use-escape-key'
 import { useIntersecting } from './use-intersection-observer'
+import { useAbortEffect as useEffect } from './use-abort-effect'
 
-export function useMenu({
-  buttonRef,
-  menuRef,
-}: {
-  buttonRef: MutableRefObject<null | HTMLButtonElement>
-  menuRef: MutableRefObject<null | HTMLElement>
-}) {
+export function useMenu({ auto = false }: { auto?: boolean } = {}) {
   const [isOpen, setIsOpen] = useState(false)
 
+  const [button, setButton] = useState<HTMLElement | null>(null)
+  const buttonRef: RefCallback<HTMLElement | null> = useCallback(setButton, [
+    setButton,
+  ])
+
+  const [menu, setMenu] = useState<HTMLElement | null>(null)
+  const menuRef: RefCallback<HTMLElement | null> = useCallback(setMenu, [
+    setMenu,
+  ])
+
+  const open = useCallback(() => {
+    setIsOpen(true)
+  }, [setIsOpen])
+  const close = useCallback(() => {
+    setIsOpen(false)
+  }, [setIsOpen])
+  const toggle = useCallback(() => {
+    setIsOpen((isOpen) => !isOpen)
+  }, [setIsOpen])
+  const closeAndFocus = useCallback(() => {
+    setIsOpen((isOpen) => {
+      if (isOpen) setTimeout(() => button?.focus())
+      return false
+    })
+  }, [setIsOpen, button])
+
   useEscapeKey({
-    handler: useCallback(
-      (event) => {
-        setIsOpen((visibleCurrent) => {
-          if (visibleCurrent) buttonRef.current?.focus()
-          return false
-        })
-      },
-      [setIsOpen, buttonRef]
-    ),
+    handler: closeAndFocus,
   })
 
   useClickOutside({
-    refs: [menuRef, buttonRef],
-    handler: useCallback(
-      (event) => {
-        setIsOpen(false)
-      },
-      [setIsOpen]
-    ),
+    elements: [menu, button],
+    handler: close,
   })
 
   // If the button is not into the viewport, close the menu
   useIntersecting({
-    ref: buttonRef,
+    element: button,
     handler: useCallback(
       (isIntersecting) => {
-        if (!isIntersecting) setIsOpen(false)
+        if (!isIntersecting) close()
       },
-      [setIsOpen]
+      [close]
     ),
   })
 
-  return [isOpen, setIsOpen] as const
+  useEffect(() => {
+    if (isOpen) {
+      const focusable = menu?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      focusable?.[0]?.focus()
+    }
+  }, [isOpen, menu])
+
+  useEffect(
+    (signal) => {
+      if (auto) {
+        button?.addEventListener('mouseover', open, { signal, passive: true })
+        menu?.addEventListener('mouseleave', close, { signal, passive: true })
+      }
+    },
+    [open, close, auto, button, menu]
+  )
+
+  return { isOpen, open, close, toggle, menuRef, buttonRef }
 }

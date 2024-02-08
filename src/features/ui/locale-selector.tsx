@@ -1,9 +1,11 @@
 'use client'
 
-import { mdiChevronDown, mdiChevronUp } from '@mdi/js'
+import { mdiChevronUp, mdiWeb } from '@mdi/js'
+import Icon from '@mdi/react'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
-import { useRef } from 'react'
+
+import { clsx } from '@/utils/clsx'
 
 import { useMenu } from '../dom-hooks/use-menu'
 import { ButtonIcon } from './button-icon'
@@ -28,17 +30,13 @@ type Props = {
 const LANGUAGE_SELECTOR_ID = 'language-selector'
 
 export function LocaleSelector({ locales, locale, onChange }: Props) {
-  const menuRef = useRef<HTMLUListElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const { isOpen, close, toggle, menuRef, buttonRef } = useMenu({
+    auto: true,
+  })
 
-  const [isOpen, setIsOpen] = useMenu({ menuRef, buttonRef })
-
-  const [lang, code] = locale.split('-', 2)
+  const [lang] = locale.split('-', 2)
 
   const currentLang = Object.hasOwn(locales, lang) ? locales[lang] : undefined
-  const currentCountry =
-    (code && currentLang?.countries.find((c) => c.code === code)) ||
-    currentLang?.countries[0]
 
   return (
     <div className="relative">
@@ -47,29 +45,25 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
         aria-expanded={isOpen}
         id={LANGUAGE_SELECTOR_ID}
         outlined
-        onClick={() => {
-          setIsOpen(!isOpen)
-        }}
-        path={isOpen ? mdiChevronDown : mdiChevronUp}
+        onClick={toggle}
+        path={mdiWeb}
       >
-        <span className="ml-2">{currentLang?.name || locale}</span>
-
-        {currentCountry && (
-          <Image
-            src={currentCountry.img}
-            width={16}
-            className="ml-2 rounded-full"
-            alt={`${currentCountry.name} (${lang})`}
-            role="menuitem"
-          />
-        )}
+        <span className="mx-2">{currentLang?.name || locale}</span>
+        <Icon
+          path={mdiChevronUp}
+          size="1.2em"
+          className={clsx(
+            'transition-transform duration-300',
+            isOpen ? 'rotate-180' : 'rotate-0'
+          )}
+        ></Icon>
       </ButtonIcon>
 
       {isOpen && (
         <ul
           ref={menuRef}
           role="menu"
-          className="origin-bottom-right absolute right-0 bottom-12 mt-2 w-64 p-1 rounded-md border border-gray-300 dark:border-gray-700 shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5"
+          className="origin-bottom-right absolute right-0 bottom-12 mt-2 w-64 p-1 rounded-md border border-gray-300 dark:border-gray-700 shadow-lg bg-white dark:bg-slate-800"
           aria-orientation="vertical"
           aria-labelledby={LANGUAGE_SELECTOR_ID}
         >
@@ -84,7 +78,7 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
                       event.preventDefault()
 
                       onChange(`${lang}-${countries[0].code}`)
-                      setIsOpen(false)
+                      close()
                     }
                   : undefined
               }
@@ -100,7 +94,7 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
                     event.preventDefault()
 
                     onChange(`${lang}-${code}`)
-                    setIsOpen(false)
+                    close()
                   }}
                   role="menuitem"
                   className="m-1"
@@ -108,7 +102,7 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
                   <Image
                     src={img}
                     width={24}
-                    className="rounded-full"
+                    className="rounded-full border border-slate-100 dark:border-slate-500 ring-1 ring-slate-600 ring-opacity-50"
                     alt={`${name} (${lang})`}
                     role="menuitem"
                   />

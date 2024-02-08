@@ -2,8 +2,6 @@
 
 import type { ReactElement, ReactNode } from 'react'
 
-import { useRef } from 'react'
-
 import { clsx } from '@/utils/clsx'
 import type {
   HtmlComponent,
@@ -27,17 +25,14 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
   className,
   ...props
 }) => {
-  const menuRef = useRef<HTMLUListElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
-  const [visible, setVisible] = useMenu({ menuRef, buttonRef })
+  const { isOpen, toggle, menuRef, buttonRef } = useMenu()
 
   return (
     <>
       <Button
         onClick={(event) => {
           if (!event.defaultPrevented) {
-            setVisible((v) => !v)
+            toggle()
             event.preventDefault()
           }
         }}
@@ -48,11 +43,11 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
         aria-label="Main menu"
         aria-controls={`${id}-menu`}
         aria-haspopup={true}
-        aria-expanded={visible}
+        aria-expanded={isOpen}
       >
         <MenuIcon
           aria-hidden="true"
-          active={visible}
+          active={isOpen}
           size="1.2em"
           style={{ margin: '-0.1em' }}
         />
@@ -64,7 +59,7 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
         id={`${id}-menu`}
         aria-labelledby={`${id}-menubutton`}
         className={clsx(
-          visible || 'hidden',
+          isOpen || 'hidden',
           'md:!flex flex flex-col w-full md:w-auto order-last md:order-[initial] md:flex-row mt-4 md:mt-0',
           className
         )}

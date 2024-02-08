@@ -1,17 +1,16 @@
-import type { MutableRefObject } from 'react'
 import { useAbortEffect as useEffect } from './use-abort-effect'
 
 export function useClickOutside({
-  refs,
+  elements,
   handler,
 }: {
-  refs: MutableRefObject<HTMLElement | null>[]
+  elements: readonly (HTMLElement | null)[]
   handler: (event: MouseEvent | TouchEvent) => void
 }) {
   useEffect(
     (signal) => {
       const listener = (event: MouseEvent | TouchEvent) => {
-        if (!refs.some((ref) => ref.current?.contains(event.target as Node))) {
+        if (!elements.some((el) => el?.contains(event.target as Node))) {
           handler(event)
         }
       }
@@ -26,6 +25,6 @@ export function useClickOutside({
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handler, ...refs]
+    [handler, ...elements]
   )
 }
