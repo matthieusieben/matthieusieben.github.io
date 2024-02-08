@@ -56,6 +56,22 @@ export function useMenu({ auto = false }: { auto?: boolean } = {}) {
     ),
   })
 
+  useEffect(
+    (signal) => {
+      button?.addEventListener(
+        'click',
+        (event) => {
+          if (!event.defaultPrevented) {
+            event.preventDefault()
+            toggle()
+          }
+        },
+        { signal }
+      )
+    },
+    [toggle, button]
+  )
+
   useEffect(() => {
     if (isOpen) {
       const focusable = menu?.querySelectorAll<HTMLElement>(
@@ -68,7 +84,7 @@ export function useMenu({ auto = false }: { auto?: boolean } = {}) {
   useEffect(
     (signal) => {
       if (auto) {
-        button?.addEventListener('mouseover', open, { signal, passive: true })
+        button?.addEventListener('mouseenter', open, { signal, passive: true })
         menu?.addEventListener('mouseleave', close, { signal, passive: true })
       }
     },

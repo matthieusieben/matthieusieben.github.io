@@ -30,7 +30,7 @@ type Props = {
 const LANGUAGE_SELECTOR_ID = 'language-selector'
 
 export function LocaleSelector({ locales, locale, onChange }: Props) {
-  const { isOpen, close, toggle, menuRef, buttonRef } = useMenu({
+  const { isOpen, close, menuRef, buttonRef } = useMenu({
     auto: true,
   })
 
@@ -45,7 +45,6 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
         aria-expanded={isOpen}
         id={LANGUAGE_SELECTOR_ID}
         outlined
-        onClick={toggle}
         path={mdiWeb}
       >
         <span className="mx-2">{currentLang?.name || locale}</span>

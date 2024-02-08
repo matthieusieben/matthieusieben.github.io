@@ -25,17 +25,11 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
   className,
   ...props
 }) => {
-  const { isOpen, toggle, menuRef, buttonRef } = useMenu()
+  const { isOpen, menuRef, buttonRef } = useMenu()
 
   return (
     <>
       <Button
-        onClick={(event) => {
-          if (!event.defaultPrevented) {
-            toggle()
-            event.preventDefault()
-          }
-        }}
         type="button"
         id={`${id}-menubutton`}
         ref={buttonRef}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export function useIntersectionObserver({
   element,
@@ -33,7 +33,7 @@ export function useIntersectionObserver({
 
 export function useIntersecting({
   element,
-  ratio = 0.5,
+  ratio = 0,
   handler,
   options,
 }: {
@@ -42,21 +42,20 @@ export function useIntersecting({
   handler: (isIntersecting: boolean) => void
   options?: IntersectionObserverInit
 }) {
+  const [isIntersecting, setIsIntersecting] = useState(false)
+
   useIntersectionObserver({
     element,
     options,
     handler: useCallback(
       ({ intersectionRatio }) => {
-        const isIntersecting =
-          ratio >= 1.0 && intersectionRatio === 1.0
-            ? true
-            : ratio <= 0.0 && intersectionRatio === 0.0
-              ? false
-              : intersectionRatio > ratio
-
-        handler(isIntersecting)
+        setIsIntersecting(intersectionRatio > ratio)
       },
-      [ratio, handler]
+      [setIsIntersecting, ratio]
     ),
   })
+
+  useEffect(() => {
+    handler(isIntersecting)
+  }, [handler, isIntersecting])
 }

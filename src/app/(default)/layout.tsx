@@ -29,7 +29,7 @@ export default function RootLayout({ params, children }: Props) {
   return (
     <html
       lang={locale}
-      className={`${sansFont.variable} ${monoFont.variable} light snap-y snap-mandatory`}
+      className={`${sansFont.variable} ${monoFont.variable} snap-y snap-mandatory light`}
       style={{ colorScheme: 'light' }}
     >
       <body>
