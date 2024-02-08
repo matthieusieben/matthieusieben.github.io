@@ -9,7 +9,6 @@ type Props = {
   backgroundSrc: StaticImageData
   backgroundAlt?: string
   backgroundPosition?: string
-  mainAnchor?: string
 }
 
 export const Header: PolymorphicComponent<Props, 'header'> = ({
@@ -19,7 +18,6 @@ export const Header: PolymorphicComponent<Props, 'header'> = ({
   backgroundSrc,
   backgroundAlt = title,
   backgroundPosition = '50% 50%',
-  mainAnchor,
   className,
   children,
   ...attrs

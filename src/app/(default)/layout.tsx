@@ -29,15 +29,17 @@ export default function RootLayout({ params, children }: Props) {
   return (
     <html
       lang={locale}
-      className={`${sansFont.variable} ${monoFont.variable} light`}
+      className={`${sansFont.variable} ${monoFont.variable} light snap-y snap-mandatory`}
       style={{ colorScheme: 'light' }}
     >
       <body>
         <Providers locale={locale}>
           <AppNavbar locale={locale} />
-          <AppHeader locale={locale} />
-          <AppContent locale={locale}>{children}</AppContent>
-          <AppFooter locale={locale} />
+          <AppHeader locale={locale} className="snap-center" />
+          <div className="min-h-screen flex flex-col snap-center">
+            <AppContent locale={locale}>{children}</AppContent>
+            <AppFooter locale={locale} />
+          </div>
         </Providers>
       </body>
     </html>

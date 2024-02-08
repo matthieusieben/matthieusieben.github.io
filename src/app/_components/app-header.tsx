@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 import NextLink from 'next/link'
 
 import { mdiChevronDown } from '@mdi/js'
@@ -13,16 +13,21 @@ import pictureImport from '~/picture.jpg'
 export async function AppHeader({
   locale,
   children,
+  ...props
 }: {
   locale: string
   children?: ReactNode
-}) {
+} & Omit<
+  ComponentProps<typeof Header>,
+  'title' | 'backgroundSrc' | 'backgroundPosition' | 'children'
+>) {
   const d = await getDictionary(locale)
   return (
     <Header
       title={d.name}
       backgroundSrc={pictureImport}
       backgroundPosition="60% 28%"
+      {...props}
     >
       {children}
       <ScrollVisibility

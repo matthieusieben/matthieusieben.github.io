@@ -10,7 +10,7 @@ export async function AppContent({
   return (
     <main
       className={clsx(
-        'mx-auto container min-h-screen flex flex-col items-center justify-center',
+        'mx-auto container flex-grow flex flex-col items-center justify-center',
         className
       )}
       {...props}
