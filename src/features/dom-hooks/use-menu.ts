@@ -29,15 +29,9 @@ export function useMenu({ auto = false }: { auto?: boolean } = {}) {
   const toggle = useCallback(() => {
     setIsOpen((isOpen) => !isOpen)
   }, [setIsOpen])
-  const closeAndFocus = useCallback(() => {
-    setIsOpen((isOpen) => {
-      if (isOpen) setTimeout(() => button?.focus())
-      return false
-    })
-  }, [setIsOpen, button])
 
   useEscapeKey({
-    handler: closeAndFocus,
+    handler: close,
   })
 
   useClickOutside({
@@ -72,15 +66,6 @@ export function useMenu({ auto = false }: { auto?: boolean } = {}) {
     [toggle, button]
   )
 
-  useEffect(() => {
-    if (isOpen) {
-      const focusable = menu?.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-      focusable?.[0]?.focus()
-    }
-  }, [isOpen, menu])
-
   useEffect(
     (signal) => {
       if (auto) {
@@ -90,6 +75,21 @@ export function useMenu({ auto = false }: { auto?: boolean } = {}) {
     },
     [open, close, auto, button, menu]
   )
+
+  useEffect(() => {
+    if (isOpen) {
+      const focusable = menu?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      focusable?.[0]?.focus()
+    }
+  }, [isOpen, menu])
+
+  useEffect(() => {
+    if (!isOpen && menu?.contains(document.activeElement)) {
+      button?.focus()
+    }
+  }, [isOpen, menu, button])
 
   return { isOpen, open, close, toggle, menuRef, buttonRef }
 }

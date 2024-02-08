@@ -6,8 +6,9 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 
 import { clsx } from '@/utils/clsx'
+import { useMenu } from '@/features/dom-hooks/use-menu'
+import { useOnceActivated } from '@/features/dom-hooks/use-once-activated'
 
-import { useMenu } from '../dom-hooks/use-menu'
 import { ButtonIcon } from './button-icon'
 
 type CountryInfo = {
@@ -40,14 +41,10 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
 
   return (
     <div className="relative">
-      <ButtonIcon
-        ref={buttonRef}
-        aria-expanded={isOpen}
-        id={LANGUAGE_SELECTOR_ID}
-        outlined
-        path={mdiWeb}
-      >
-        <span className="mx-2">{currentLang?.name || locale}</span>
+      <ButtonIcon ref={buttonRef} aria-expanded={isOpen} outlined path={mdiWeb}>
+        <span className="mx-2" id={LANGUAGE_SELECTOR_ID}>
+          {currentLang?.name || locale}
+        </span>
         <Icon
           path={mdiChevronUp}
           size="1.2em"
@@ -58,11 +55,12 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
         ></Icon>
       </ButtonIcon>
 
-      {isOpen && (
+      {useOnceActivated(isOpen) && (
         <ul
           ref={menuRef}
           role="menu"
           className="origin-bottom-right absolute right-0 bottom-12 mt-2 w-64 p-1 rounded-md border border-gray-300 dark:border-gray-700 shadow-lg bg-white dark:bg-slate-800"
+          style={{ display: isOpen ? 'block' : 'none' }}
           aria-orientation="vertical"
           aria-labelledby={LANGUAGE_SELECTOR_ID}
         >
