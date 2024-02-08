@@ -16,7 +16,7 @@ type Props = Pick<
   | 'spin'
 >
 
-export const ButtonIcon = forwardRef<Props, 'button'>(
+export const ButtonIcon = forwardRef<Props, typeof Button>(
   (
     {
       as = 'button' as ElementType,
