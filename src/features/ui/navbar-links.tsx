@@ -2,7 +2,7 @@
 
 import type { ReactElement, ReactNode } from 'react'
 
-import { useCallback, useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import { clsx } from '@/utils/clsx'
 import type {
@@ -10,9 +10,7 @@ import type {
   PolymorphicComponent,
 } from '@/utils/polymorphic-component'
 
-import { useClickOutside } from '@/features/dom-hooks/use-click-outside'
-import { useEscapeKey } from '@/features/dom-hooks/use-escape-key'
-import { useIntersecting } from '@/features/dom-hooks/use-intersection-observer'
+import { useMenu } from '../dom-hooks/use-menu'
 import { Button } from './button'
 import { MenuIcon } from './menu-icon'
 
@@ -29,34 +27,10 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
   className,
   ...props
 }) => {
-  const [visible, setVisible] = useState(false)
-
   const menuRef = useRef<HTMLUListElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  useEscapeKey({
-    handler: useCallback((event) => {
-      setVisible((visibleCurrent) => {
-        if (visibleCurrent) buttonRef.current?.focus()
-        return false
-      })
-    }, []),
-  })
-
-  useClickOutside({
-    refs: [menuRef, buttonRef],
-    handler: useCallback((event) => {
-      setVisible(false)
-    }, []),
-  })
-
-  // If the button is not into the viewport, close the menu
-  useIntersecting({
-    ref: buttonRef,
-    handler: useCallback((isIntersecting) => {
-      if (!isIntersecting) setVisible(false)
-    }, []),
-  })
+  const [visible, setVisible] = useMenu({ menuRef, buttonRef })
 
   return (
     <>
