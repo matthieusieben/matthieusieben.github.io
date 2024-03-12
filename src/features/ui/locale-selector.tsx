@@ -11,19 +11,21 @@ import { useOnceActivated } from '@/features/dom-hooks/use-once-activated'
 
 import { ButtonIcon } from './button-icon'
 
-type CountryInfo = {
+export type CountryInfo = {
   code: string
   name: string
   img: string | StaticImport
 }
 
-type LangInfo = {
+export type LangInfo = {
   name: string
   countries: readonly CountryInfo[]
 }
 
+export type LangDefs = Record<string, LangInfo>
+
 type Props = {
-  locales: Record<string, LangInfo>
+  locales: LangDefs
   locale: string
   onChange: (locale: string) => void
 }

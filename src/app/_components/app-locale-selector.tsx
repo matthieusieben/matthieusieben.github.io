@@ -7,13 +7,13 @@ import usFlag from 'flag-icons/flags/1x1/us.svg'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
 import { buildUrl } from '@/alternates'
-import { LocaleSelector } from '@/features/ui/locale-selector'
+import { LangDefs, LocaleSelector } from '@/features/ui/locale-selector'
 
 type Props = {
   locale: string
 }
 
-export const localesNames = {
+export const localesNames: LangDefs = {
   en: {
     name: 'English',
     countries: [
