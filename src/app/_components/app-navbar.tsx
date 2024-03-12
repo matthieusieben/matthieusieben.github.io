@@ -51,7 +51,7 @@ export async function AppNavbar({
           </ButtonIcon>
           <ButtonIcon
             as={NextLink}
-            href={'https://bsky.app/profile/matthieusieben.com'}
+            href={'https://bsky.app/profile/did:plc:linrigsaay5zenhg756ca6tg'}
             target="_blank"
             rel="me"
             title={d.links.bluesky.title}
