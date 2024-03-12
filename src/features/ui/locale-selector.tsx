@@ -32,7 +32,7 @@ const LANGUAGE_SELECTOR_ID = 'language-selector'
 
 export function LocaleSelector({ locales, locale, onChange }: Props) {
   const { isOpen, close, menuRef, buttonRef } = useMenu({
-    auto: true,
+    auto: false,
   })
 
   const [lang] = locale.split('-', 2)
