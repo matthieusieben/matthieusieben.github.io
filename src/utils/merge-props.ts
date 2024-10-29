@@ -19,8 +19,8 @@ export function mergeProps<T extends Props[]>(
   [K in keyof UnionToIntersection<T[number]>]: K extends 'className'
     ? string
     : K extends 'style'
-    ? React.CSSProperties
-    : Exclude<Extract<T[number], { [Q in K]: unknown }>[K], undefined>
+      ? React.CSSProperties
+      : Exclude<Extract<T[number], { [Q in K]: unknown }>[K], undefined>
 } {
   if (propsArray.length === 0) return {} as any
   if (propsArray.length === 1) return propsArray[0] as any

@@ -78,5 +78,5 @@ type InternalPropsOf<T extends ElementType> =
   T extends InternalForwardRefRenderFunction<infer D, infer Props>
     ? PropsWithoutRef<ExtendComponentProps<D, Props, 'as'>>
     : T extends PolymorphicComponent<infer Props, infer D>
-    ? PropsWithoutRef<ExtendComponentProps<D, Props, 'as'>>
-    : ComponentPropsWithoutRef<T>
+      ? PropsWithoutRef<ExtendComponentProps<D, Props, 'as'>>
+      : ComponentPropsWithoutRef<T>
