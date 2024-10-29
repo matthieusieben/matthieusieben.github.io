@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Fira_Code, Inter } from 'next/font/google'
 import { ReactNode } from 'react'
 
@@ -44,6 +45,7 @@ export default function RootLayout({ params, children }: Props) {
           </div>
         </Providers>
       </body>
+      <GoogleAnalytics gaId="G-0JGXYT0P0X" />
     </html>
   )
 }
