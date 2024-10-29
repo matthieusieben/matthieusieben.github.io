@@ -5,7 +5,7 @@ import type { MouseEvent, PointerEvent } from 'react'
 import { PolymorphicComponent } from '@/utils/polymorphic-component'
 import { clsx } from '@/utils/clsx'
 
-import classes from './menu-icon.module.sass' assert { type: 'css' }
+import classes from './menu-icon.module.sass' with { type: 'css' }
 
 type Props = {
   active?: boolean
