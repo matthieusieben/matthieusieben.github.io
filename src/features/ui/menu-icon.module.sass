@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 $menu-size: 1em
 $line-width: 0.1em
 $line-spacing: 0.2em
@@ -19,14 +21,14 @@ $line-spacing: 0.2em
     width: $menu-size
     height: $line-width
     background-color: currentColor
-    border-radius: $line-width / 2
+    border-radius: math.div($line-width, 2)
     transition: all 0.2s ease-in-out
 
     &:first-of-type
-      top: $menu-size / 2 - $line-spacing / 2 - $line-width
+      top: math.div($menu-size, 2) - math.div($line-spacing, 2) - $line-width
 
     &:last-of-type
-      top: $menu-size / 2 + $line-spacing / 2
+      top: math.div($menu-size, 2) + math.div($line-spacing, 2)
 
 .active
   span
@@ -38,10 +40,10 @@ $line-spacing: 0.2em
 
     &:first-of-type
       transform: rotate(-45deg)
-      top: $menu-size / 2 - $line-width / 2
+      top: math.div($menu-size, 2) - math.div($line-width, 2)
     &:last-of-type
       transform: rotate(-45deg + 90deg)
-      top: $menu-size / 2 - $line-width / 2
+      top: math.div($menu-size, 2) - math.div($line-width, 2)
 
 
 .inactive:hover
