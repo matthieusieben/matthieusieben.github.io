@@ -101,6 +101,7 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
                   <Image
                     src={img}
                     width={24}
+                    height={24}
                     className="rounded-full border border-slate-100 dark:border-slate-500 ring-1 ring-slate-600 ring-opacity-50"
                     alt={`${name} (${lang})`}
                     role="menuitem"
