@@ -10,7 +10,7 @@
     "format": "prettier --write . && next lint --fix"
   },
   "dependencies": {
-    "next": "^13.5.3"
+    "next": "^15.1.1"
   },
   "devDependencies": {
     "@hapi/accept": "^6.0.3",
