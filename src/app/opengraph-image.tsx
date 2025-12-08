@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-import { defaultLocale, fullName, origin } from '@/constants'
+import { defaultLocale, fullName } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 
 import portraitUrl from '~/portrait.jpg'
@@ -23,7 +23,6 @@ type Props = {
 // want this behavior. this is achieved thanks to the "(default)" folder.
 export default async function OpengraphImage({ params }: Props) {
   const d = await getDictionary((await params)?.locale || defaultLocale)
-  const src = await fetchAsset(portraitUrl.src)
 
   return new ImageResponse(
     (
@@ -33,7 +32,7 @@ export default async function OpengraphImage({ params }: Props) {
           width="256"
           height="256"
           tw="rounded-full border-4 border-neutral-100"
-          src={src}
+          src={portraitUrl.blurDataURL}
         />
         <p tw="text-4xl">{d.name}</p>
         <p tw="text-xl">{d.title}</p>
@@ -44,15 +43,4 @@ export default async function OpengraphImage({ params }: Props) {
       height: size.height,
     }
   )
-}
-
-export async function fetchAsset(path: string) {
-  const data = await fetch(new URL(path, origin))
-  if (!data.ok) throw new Error(`Failed to fetch ${path}`)
-
-  const contentType = data.headers.get('content-type')
-  if (!contentType) throw new Error(`Unknown content type for ${path}`)
-
-  const content = Buffer.from(await data.arrayBuffer())
-  return `data:${contentType};base64,${content.toString('base64')}`
 }
