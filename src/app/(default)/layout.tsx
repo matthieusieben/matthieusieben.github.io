@@ -16,7 +16,7 @@ const sansFont = Inter({ variable: '--sans-font', subsets: ['latin'] })
 const monoFont = Fira_Code({ variable: '--mono-font', subsets: ['latin'] })
 
 type Props = {
-  params: { locale?: string }
+  params: Promise<{ locale?: string }>
   children: ReactNode
 }
 
@@ -25,8 +25,8 @@ type Props = {
 // their own "layout.tsx" file. The only way of havin multiple root layout files
 // is to have none at the root, and use layout files namespaced folders
 // ("(default)", "[locale]").
-export default function RootLayout({ params, children }: Props) {
-  const locale = asLocale(params.locale)
+export default async function RootLayout({ params, children }: Props) {
+  const locale = asLocale((await params).locale)
   return (
     <html
       lang={locale}

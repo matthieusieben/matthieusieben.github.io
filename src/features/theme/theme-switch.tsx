@@ -2,32 +2,28 @@
 
 import { mdiThemeLightDark, mdiWeatherNight, mdiWeatherSunny } from '@mdi/js'
 import { useTheme } from 'next-themes'
-import { MouseEvent, useEffect, useState } from 'react'
+import { ComponentProps, MouseEvent, useEffect, useState } from 'react'
 
-import { ButtonIcon } from '@/features/ui/button-icon'
+import { Button } from '@/features/ui/button'
 import { nextArrayItem } from '@/utils/array'
 import { clsx } from '@/utils/clsx'
-import { ExtendedComponent } from '@/utils/polymorphic-component'
 
 type Props = {
-  onChange?: (theme: string, event: MouseEvent<HTMLButtonElement>) => void
+  onChange?: (theme: string) => void
   title?: string
   colors?: Record<string, string | undefined>
   classes?: Record<string, string | undefined>
 }
 
-export const ThemeSwitch: ExtendedComponent<
-  typeof ButtonIcon<'button'>,
-  Props,
-  'path'
-> = ({
+export function ThemeSwitch({
   title = 'Toggle dark mode',
   onChange,
+  onClick,
   colors,
   classes,
   className,
   ...props
-}) => {
+}: Props & ComponentProps<typeof Button>) {
   const [mounted, setMounted] = useState(false)
   const { systemTheme = 'light', theme, themes, setTheme } = useTheme()
 
@@ -40,12 +36,15 @@ export const ThemeSwitch: ExtendedComponent<
   const colorTheme = ssrSafeTheme === 'system' ? systemTheme : ssrSafeTheme
 
   return (
-    <ButtonIcon
-      onClick={(e) => {
+    <Button
+      onClick={(e: MouseEvent<HTMLElement>) => {
+        // @ts-expect-error The "Omit<>" makes props incompatible here, though they are
+        onClick?.(e)
+
         const nextTheme = nextArrayItem(themes, theme) || systemTheme
 
         if (!e.defaultPrevented && onChange) {
-          onChange(nextTheme, e)
+          onChange(nextTheme)
         }
         // Call onChange first to allow calling prevent default from there
         if (!e.defaultPrevented) {
@@ -57,8 +56,8 @@ export const ThemeSwitch: ExtendedComponent<
       aria-hidden="true"
       color={colors?.[colorTheme] || 'currentColor'}
       className={clsx(className, classes?.[colorTheme])}
-      {...props}
-      path={themeToIcon(ssrSafeTheme)}
+      {...(props as ComponentProps<typeof Button>)}
+      icon={themeToIcon(ssrSafeTheme)}
     />
   )
 }

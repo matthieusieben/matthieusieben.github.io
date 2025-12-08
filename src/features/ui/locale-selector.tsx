@@ -9,7 +9,7 @@ import { clsx } from '@/utils/clsx'
 import { useMenu } from '@/features/dom-hooks/use-menu'
 import { useOnceActivated } from '@/features/dom-hooks/use-once-activated'
 
-import { ButtonIcon } from './button-icon'
+import { Button } from './button'
 
 export type CountryInfo = {
   code: string
@@ -39,11 +39,12 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
 
   const [lang] = locale.split('-', 2)
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const currentLang = Object.hasOwn(locales, lang) ? locales[lang] : undefined
 
   return (
     <div className="relative">
-      <ButtonIcon ref={buttonRef} aria-expanded={isOpen} outlined path={mdiWeb}>
+      <Button ref={buttonRef} aria-expanded={isOpen} outlined icon={mdiWeb}>
         <span className="mx-2" id={LANGUAGE_SELECTOR_ID}>
           {currentLang?.name || locale}
         </span>
@@ -55,7 +56,7 @@ export function LocaleSelector({ locales, locale, onChange }: Props) {
             isOpen ? 'rotate-180' : 'rotate-0'
           )}
         ></Icon>
-      </ButtonIcon>
+      </Button>
 
       {useOnceActivated(isOpen) && (
         <ul

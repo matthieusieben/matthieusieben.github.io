@@ -1,7 +1,6 @@
-import type { PolymorphicComponent } from '@/utils/polymorphic-component'
-
-import Image from 'next/image'
 import type { StaticImageData } from 'next/dist/shared/lib/get-img-props'
+import Image from 'next/image'
+import { HTMLAttributes } from 'react'
 
 type Props = {
   id?: string
@@ -11,8 +10,7 @@ type Props = {
   backgroundPosition?: string
 }
 
-export const Header: PolymorphicComponent<Props, 'header'> = ({
-  as: Component = 'header' as const,
+export function Header({
   id = 'header',
   title,
   backgroundSrc,
@@ -21,9 +19,9 @@ export const Header: PolymorphicComponent<Props, 'header'> = ({
   className,
   children,
   ...attrs
-}) => {
+}: Props & HTMLAttributes<HTMLDivElement>) {
   return (
-    <Component
+    <header
       className={`${className || ''} w-full h-screen relative overflow-hidden`}
       {...attrs}
     >
@@ -32,7 +30,6 @@ export const Header: PolymorphicComponent<Props, 'header'> = ({
         alt={backgroundAlt}
         role="img"
         aria-labelledby={`${id}-title`}
-        quality={90}
         placeholder="blur"
         sizes={
           // Full screen, make sure we pick the larger of the two dimensions
@@ -52,6 +49,6 @@ export const Header: PolymorphicComponent<Props, 'header'> = ({
         {title}
       </h1>
       {children}
-    </Component>
+    </header>
   )
 }

@@ -5,14 +5,15 @@ import { defaultLocale, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
 
 type Props = {
-  params: { locale?: string }
+  params: Promise<{ locale?: string }>
 }
 
 export async function generateMetadata(
-  { params: { locale = defaultLocale } }: Props,
+  { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { openGraph } = await parent
+  const locale = (await params).locale || defaultLocale
   const d = await getDictionary(locale)
   return {
     title: `${d.name} | ${d.title}`,
@@ -40,9 +41,8 @@ export async function generateMetadata(
   }
 }
 
-export default async function HomePage({
-  params: { locale = defaultLocale },
-}: Props) {
+export default async function HomePage({ params }: Props) {
+  const locale = (await params).locale || defaultLocale
   const d = await getDictionary(locale)
 
   return (

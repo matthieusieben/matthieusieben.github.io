@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/server'
+import { ImageResponse } from 'next/og'
 
 import { defaultLocale, fullName, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
@@ -14,7 +14,7 @@ export const size = {
 export const contentType = 'image/png'
 
 type Props = {
-  params?: { locale?: string }
+  params?: Promise<{ locale?: string }>
 }
 
 // We want this image to be part of the "parent" ResolvedMetadata in
@@ -22,7 +22,7 @@ type Props = {
 // opengraph-image.tsx file must be in a parent directory of the pages where we
 // want this behavior. this is achieved thanks to the "(default)" folder.
 export default async function OpengraphImage({ params }: Props) {
-  const d = await getDictionary(params?.locale || defaultLocale)
+  const d = await getDictionary((await params)?.locale || defaultLocale)
   const src = await fetchAsset(portraitUrl.src)
 
   return new ImageResponse(

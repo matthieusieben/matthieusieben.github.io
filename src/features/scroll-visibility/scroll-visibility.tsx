@@ -2,39 +2,37 @@
 
 import { useOnceActivated } from '@/features/dom-hooks/use-once-activated'
 import {
-  Mode,
   Threshold,
   useScrollVisibility,
 } from '@/features/dom-hooks/use-scoll-visibility'
-import { mergeProps } from '@/utils/merge-props'
-import { forwardRef } from '@/utils/polymorphic-component'
+import { createRef, HTMLAttributes, ReactNode } from 'react'
 
 type Props = {
-  mode?: Mode
   threshold?: Threshold
   classNameHidden?: string
   classNameVisible?: string
+  children?: ReactNode
 }
 
-export const ScrollVisibility = forwardRef<Props>(
-  (
-    {
-      as: Component = 'div',
-      threshold = 100,
-      mode = 'appear',
-      classNameHidden = 'transition-[opacity] ease-in-out opacity-0',
-      classNameVisible = 'transition-[opacity] ease-in-out opacity-100',
-      ...props
-    },
-    ref
-  ) => {
-    const visible = useScrollVisibility(mode, threshold)
-    const activated = useOnceActivated(visible)
+export function ScrollVisibility({
+  threshold = 100,
+  classNameHidden = 'transition-[opacity] ease-in-out opacity-0',
+  classNameVisible = 'transition-[opacity] ease-in-out opacity-100',
+  children,
+  ...props
+}: Props & HTMLAttributes<HTMLDivElement>) {
+  const visible = useScrollVisibility(threshold)
+  const activated = useOnceActivated(visible)
 
-    if (!visible && !activated) return null
+  if (!visible && !activated) return null
 
-    const className = visible && activated ? classNameVisible : classNameHidden
-    return <Component ref={ref} {...mergeProps(props, { className })} />
-  }
-)
-ScrollVisibility.displayName = 'ScrollVisibility'
+  const className = visible && activated ? classNameVisible : classNameHidden
+
+  const ref = createRef<HTMLDivElement | null>()
+
+  return (
+    <div ref={ref} className={className} {...props}>
+      {children}
+    </div>
+  )
+}

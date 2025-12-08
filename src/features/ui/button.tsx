@@ -1,10 +1,20 @@
-import { clsx } from '@/utils/clsx'
-import { forwardRef } from '@/utils/polymorphic-component'
+import Icon from '@mdi/react'
+import NextLink from 'next/link'
 
-type Props = {
+import { clsx } from '@/utils/clsx'
+import { ComponentProps, HTMLAttributes } from 'react'
+
+type IconProps = ComponentProps<typeof Icon>
+
+export type Props = {
   type?: 'button' | 'submit' | 'reset'
   title?: string
   outlined?: boolean
+  icon?: IconProps['path']
+  color?: IconProps['color']
+  description?: IconProps['description']
+  spin?: IconProps['spin']
+  rotate?: IconProps['rotate']
 }
 
 export const classes = clsx(
@@ -24,28 +34,73 @@ export const classesOutlined = clsx(
   'dark:bg-gray-800 dark:border-gray-700'
 )
 
-export const Button = forwardRef<Props, 'button'>(
-  (
-    {
-      as: Component = 'button',
-      className,
-      children,
-      type = 'button',
-      outlined = false,
-      ...props
-    },
-    ref
-  ) => {
+export function Button({
+  // Props
+  type = 'button',
+  outlined = false,
+  title,
+  // Icon
+  icon: path,
+  color,
+  description,
+  rotate,
+  spin,
+  //
+  className,
+  children,
+  ...props
+}:
+  | (Props & HTMLAttributes<HTMLButtonElement>)
+  | (Props & ComponentProps<typeof NextLink>)) {
+  if ('href' in props) {
     return (
-      <Component
-        ref={ref}
+      <NextLink
         className={clsx(classes, className, outlined && classesOutlined)}
-        type={type}
+        type="button"
+        title={title}
         {...props}
       >
-        {children == null ? props.title : children}
-      </Component>
+        {path ? (
+          <Icon
+            key="icon"
+            path={path}
+            color={color}
+            description={description}
+            rotate={rotate}
+            spin={spin}
+            size="1.2em"
+            style={{ margin: '-0.1em' }}
+          />
+        ) : children == null ? (
+          title
+        ) : null}
+        {children}
+      </NextLink>
     )
   }
-)
-Button.displayName = 'Button'
+
+  return (
+    <button
+      className={clsx(classes, className, outlined && classesOutlined)}
+      type={type}
+      title={title}
+      {...props}
+    >
+      {path ? (
+        <Icon
+          key="icon"
+          path={path}
+          color={color}
+          description={description}
+          rotate={rotate}
+          spin={spin}
+          size="1.2em"
+          style={{ margin: '-0.1em' }}
+        />
+      ) : children == null ? (
+        title
+      ) : null}
+      {children}
+    </button>
+  )
+}

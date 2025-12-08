@@ -1,20 +1,20 @@
 import type { Metadata, ResolvingMetadata } from 'next'
-import NextLink from 'next/link'
 
 import { buildAtlernates, buildUrl } from '@/alternates'
 import { defaultLocale, origin } from '@/constants'
 import { getDictionary } from '@/dictionaries'
-import { Button } from '@/features/ui/button'
+import { Link } from '@/features/ui/link'
 
 type Props = {
-  params: { locale?: string }
+  params: Promise<{ locale?: string }>
 }
 
 export async function generateMetadata(
-  { params: { locale = defaultLocale } }: Props,
+  { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { openGraph } = await parent
+  const locale = (await params).locale || defaultLocale
   const d = await getDictionary(locale)
   return {
     title: d.pages.contact.title,
@@ -30,14 +30,13 @@ export async function generateMetadata(
   }
 }
 
-export default async function ContactPage({
-  params: { locale = defaultLocale },
-}: Props) {
+export default async function ContactPage({ params }: Props) {
+  const locale = (await params).locale || defaultLocale
   const d = await getDictionary(locale)
 
   return (
-    <Button as={NextLink} href={buildUrl(locale, '/')} outlined>
+    <Link href={buildUrl(locale, '/')} outlined>
       {d.pages.home.title}
-    </Button>
+    </Link>
   )
 }

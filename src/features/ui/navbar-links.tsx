@@ -1,12 +1,8 @@
 'use client'
 
-import type { ReactElement, ReactNode } from 'react'
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
 
 import { clsx } from '@/utils/clsx'
-import type {
-  HtmlComponent,
-  PolymorphicComponent,
-} from '@/utils/polymorphic-component'
 
 import { useMenu } from '../dom-hooks/use-menu'
 import { Button } from './button'
@@ -19,12 +15,11 @@ type Props = {
     | Iterable<ReactElement<NavbarLinkItemProps, typeof NavbarLinkItem>>
 }
 
-export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
-  as: Component = 'ul' as const,
+export function NavbarLinks({
   id = 'navbar',
   className,
   ...props
-}) => {
+}: Props & HTMLAttributes<HTMLUListElement>) {
   const { isOpen, menuRef, buttonRef } = useMenu()
 
   return (
@@ -47,7 +42,7 @@ export const NavbarLinks: PolymorphicComponent<Props, 'ul'> = ({
         />
       </Button>
 
-      <Component
+      <ul
         role="menu"
         ref={menuRef}
         id={`${id}-menu`}
@@ -67,10 +62,10 @@ type NavbarLinkItemProps = {
   children: ReactNode
 }
 
-export const NavbarLinkItem: HtmlComponent<'li', NavbarLinkItemProps> = ({
+export function NavbarLinkItem({
   className,
   ...props
-}) => {
+}: NavbarLinkItemProps & HTMLAttributes<HTMLLIElement>) {
   return (
     <li
       role="menuitem"

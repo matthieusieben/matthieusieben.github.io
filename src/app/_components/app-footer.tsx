@@ -2,14 +2,14 @@ import NextLink from 'next/link'
 
 import { getDictionary } from '@/dictionaries'
 import { Footer } from '@/features/ui/footer'
-import { PolymorphicProps } from '@/utils/polymorphic-component'
+import { ComponentProps } from 'react'
 import { AppLocaleSelector } from './app-locale-selector'
 
 export async function AppFooter({
   locale,
   children,
   ...props
-}: PolymorphicProps<'footer'> & { locale: string }) {
+}: { locale: string } & ComponentProps<typeof Footer>) {
   const d = await getDictionary(locale)
   return (
     <Footer {...props}>

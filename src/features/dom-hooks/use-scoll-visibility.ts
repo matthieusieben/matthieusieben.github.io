@@ -1,17 +1,14 @@
+'use client'
+
 import { useState } from 'react'
 import { useAbortEffect as useEffect } from './use-abort-effect'
 import { useMousePosition } from './use-mouse-position'
 import { useWindowDimensions, Dimensions } from './use-window-dimensions'
 
-export type Mode = 'appear' | 'disappear'
 export type Threshold = number | `${number}vh`
 
-export function useScrollVisibility(
-  mode: Mode,
-  threshold: Threshold,
-  throttleDelay = 200
-) {
-  const [visible, setVisible] = useState(mode === 'disappear')
+export function useScrollVisibility(threshold: Threshold, throttleDelay = 200) {
+  const [visible, setVisible] = useState(false)
 
   const dimensions = useWindowDimensions(throttleDelay)
   const position = useMousePosition(throttleDelay)
@@ -21,8 +18,8 @@ export function useScrollVisibility(
     const shouldBeVisible =
       dimensions.scrollY > thresholdPx ||
       (position?.clientY || NaN) < thresholdPx
-    setVisible(mode === 'disappear' ? !shouldBeVisible : shouldBeVisible)
-  }, [mode, threshold, dimensions, position])
+    setVisible(shouldBeVisible)
+  }, [threshold, dimensions, position])
 
   return visible
 }

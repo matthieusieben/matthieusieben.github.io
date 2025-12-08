@@ -1,8 +1,7 @@
 'use client'
 
-import type { MouseEvent, PointerEvent } from 'react'
+import type { HTMLAttributes, MouseEvent, PointerEvent } from 'react'
 
-import { PolymorphicComponent } from '@/utils/polymorphic-component'
 import { clsx } from '@/utils/clsx'
 
 import classes from './menu-icon.module.sass' with { type: 'css' }
@@ -13,15 +12,14 @@ type Props = {
   setActive?: (active: boolean) => void
 }
 
-export const MenuIcon: PolymorphicComponent<Props> = ({
-  as: Component = 'div' as const,
+export function MenuIcon({
   active = false,
   size,
   setActive,
   className,
   style,
   ...props
-}) => {
+}: Props & HTMLAttributes<HTMLDivElement>) {
   const onClick = setActive
     ? (event: MouseEvent<HTMLDivElement> | PointerEvent<HTMLDivElement>) => {
         if (!event.defaultPrevented) {
@@ -32,7 +30,7 @@ export const MenuIcon: PolymorphicComponent<Props> = ({
     : undefined
 
   return (
-    <Component
+    <div
       className={clsx(
         classes.container,
         active ? classes.active : classes.inactive,
@@ -49,6 +47,6 @@ export const MenuIcon: PolymorphicComponent<Props> = ({
         <span></span>
         <span></span>
       </div>
-    </Component>
+    </div>
   )
 }
