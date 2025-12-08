@@ -1,4 +1,4 @@
-import { mdiEmailOutline, mdiGithub, mdiLinkedin, mdiTwitter } from '@mdi/js'
+import { mdiEmailOutline, mdiGithub, mdiLinkedin } from '@mdi/js'
 import { ReactNode } from 'react'
 
 import { getDictionary } from '@/dictionaries'
@@ -49,15 +49,6 @@ export async function AppNavbar({
             icon={blueskySvgPath24}
           >
             <span className="md:hidden ml-2">{d.links.bluesky.title}</span>
-          </Button>
-          <Button
-            href={'https://twitter.com/matthieusieben'}
-            target="_blank"
-            rel="me"
-            title={d.links.twitter.title}
-            icon={mdiTwitter}
-          >
-            <span className="md:hidden ml-2">{d.links.twitter.title}</span>
           </Button>
           <Button
             href={'https://www.linkedin.com/in/matthieusieben/'}

@@ -6,4 +6,4 @@ export const origin =
 export const fullName = 'Matthieu Sieben'
 
 export const defaultLocale = 'en'
-export const availableLocales = ['en', 'fr'] as const
+export const availableLocales = ['en', 'fr', 'fr-BE'] as const

@@ -27,7 +27,7 @@ export async function AppFooter({
 
       <div className="flex-1" />
 
-      <AppLocaleSelector locale={locale} />
+      <AppLocaleSelector locale={locale} position="top left" outlined />
     </Footer>
   )
 }

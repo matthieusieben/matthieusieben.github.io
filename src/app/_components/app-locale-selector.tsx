@@ -11,6 +11,8 @@ import { LangDefs, LocaleSelector } from '@/features/ui/locale-selector'
 
 type Props = {
   locale: string
+  position?: `${'top' | 'bottom'} ${'left' | 'right'}`
+  outlined?: boolean
 }
 
 export const localesNames: LangDefs = {
@@ -28,8 +30,8 @@ export const localesNames: LangDefs = {
   fr: {
     name: 'Français',
     countries: [
-      { code: 'BE', name: 'Belgium', img: beFlag as StaticImport },
       { code: 'FR', name: 'France', img: frFlag as StaticImport },
+      { code: 'BE', name: 'Belgique', img: beFlag as StaticImport },
     ],
   },
 } as const
@@ -39,6 +41,8 @@ export function AppLocaleSelector(props: Props) {
     <LocaleSelector
       locale={props.locale}
       locales={localesNames}
+      position={props.position}
+      outlined={props.outlined}
       onChange={(locale) => {
         window.location.href = buildUrl(locale, '/')
       }}

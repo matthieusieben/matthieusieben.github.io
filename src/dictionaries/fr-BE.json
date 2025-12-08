@@ -1,0 +1,32 @@
+{
+  "name": "Matthieu Sieben",
+  "title": "Développeur Web Fullstack",
+  "rightsReserved": "Tous droits réservés",
+  "pages": {
+    "home": {
+      "title": "Accueil"
+    },
+    "about": {
+      "title": "À propos",
+      "subtitle": "\\matʃø\\",
+      "description": "Ch'uis un dev \"fullstack\" dans l'web, passionné par les nouvelles technos et l'art du code bien écrit. Mon kiff, c'est de bosser sur des projets open-source ambicieux."
+    },
+    "contact": {
+      "title": "Contact"
+    }
+  },
+  "links": {
+    "bluesky": {
+      "title": "Bluesky"
+    },
+    "github": {
+      "title": "Page Github"
+    },
+    "linkedin": {
+      "title": "Profile Linkedin"
+    },
+    "email": {
+      "title": "Email"
+    }
+  }
+}
