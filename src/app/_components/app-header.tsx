@@ -28,7 +28,7 @@ export async function AppHeader({
     <Header
       title={d.name}
       backgroundSrc={pictureImport}
-      backgroundPosition="60% 28%"
+      backgroundPosition="60% 0%"
       {...props}
     >
       {children}
